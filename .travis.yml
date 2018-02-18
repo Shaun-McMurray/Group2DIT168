@@ -14,5 +14,3 @@ script:
 
 notifications:
   slack: group2dit168:ZN4T4lCBQA6x5kHHA9PROgUy
-    on_success: always
-    on_failure: always
