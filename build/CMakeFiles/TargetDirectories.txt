@@ -1,0 +1,5 @@
+/home/shaun/Documents/projectexample/build/CMakeFiles/test.dir
+/home/shaun/Documents/projectexample/build/CMakeFiles/helloworld.dir
+/home/shaun/Documents/projectexample/build/CMakeFiles/rebuild_cache.dir
+/home/shaun/Documents/projectexample/build/CMakeFiles/helloworld-Runner.dir
+/home/shaun/Documents/projectexample/build/CMakeFiles/edit_cache.dir

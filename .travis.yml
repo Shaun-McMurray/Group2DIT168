@@ -1,0 +1,18 @@
+sudo: required
+
+language: c++
+
+services:
+  - docker
+
+install:
+  - docker build -t test .
+  - docker run --rm -ti --net=host myrepository/mydockerimage
+
+script:
+  - docker ps | grep -q test
+
+notifications:
+  slack: group2dit168:ZN4T4lCBQA6x5kHHA9PROgUy
+    on_success: always
+    on_failure: always
