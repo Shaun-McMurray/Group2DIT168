@@ -9,7 +9,7 @@ install:
   - docker build -t test .
 
 script:
-  - docker ps | grep -q test
+  - docker ps -a
 
 notifications:
   slack: group2dit168:ZN4T4lCBQA6x5kHHA9PROgUy
