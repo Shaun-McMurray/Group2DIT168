@@ -11,7 +11,7 @@ The `master` branch is a main branch which contains the source code in productio
 
 Once the source code in the `develop` branch contains stable and deliverable code, it should be merged into `master`. The repository may contain a number of supporting branches, which are used to develop new features. Supporting branches may branch off from and must be merged back into develop. 
 
-![Alt text](https://github.com/Shaun-McMurray/Group2DIT168/documentation/GitHubLayout.png "GitHub layout")
+![alt text](https://github.com/Shaun-McMurray/Group2DIT168/documentation/GitHubLayout.png "GitHub layout")
 
 Branching off from the `develop` branch:
 ```
