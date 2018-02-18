@@ -13,7 +13,7 @@ Once the source code in the `develop` branch contains stable and deliverable cod
 
 ![alt text][gitlayout]
 
-[gitlayout]: https://github.com/Shaun-McMurray/Group2DIT168/documentation/GitHubLayout.png "GitHub layout"
+[gitlayout]: https://raw.githubusercontent.com/Shaun-McMurray/Group2DIT168/master/documentation/GitHubLayout.png?token=AYDzFepkXWG_fnySxF0kTgjIEATQYVmhks5aku4UwA%3D%3D "GitHub layout"
 
 Branching off from the `develop` branch:
 ```
