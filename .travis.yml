@@ -7,10 +7,13 @@ install:
 script:
 - docker ps -a
 after_success:
-  - if [ "$TRAVIS_BRANCH" == "docker-travis-test" ]; then
-    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-    docker push sixonetwo/DIT168;
-    fi
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=sixonetwo/DIT168
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker push $REPO
 notifications:
   slack: group2dit168:ZN4T4lCBQA6x5kHHA9PROgUy
 env:
