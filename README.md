@@ -2,8 +2,7 @@
 A self driving miniature vehicle built on OpenDaVINICI and OpenDLV.
 
 ## Introduction
-The main goal of this project is to design, develop and test a self driving miniature vehicle which can communicate with other miniature vehicles and follow them based on the received data. 
-The software architecture is based on Microservices. Used tools are deployed as Docker images.
+The main goal of this project is to design, develop and test a self driving miniature vehicle which can communicate with other miniature vehicles and follow them based on the received data. In addition to following other vehicles, it will also have the ability to autonomously follow a lane. 
 
 ### GitHub layout description
 The repository setup consists of a central repository, refered to as `origin`. The central repository consists of two main branches: `master` and `develop`. 
@@ -11,18 +10,18 @@ The `master` branch is a main branch which contains the source code in productio
 
 Once the source code in the `develop` branch contains stable and deliverable code, it should be merged into `master`. The repository may contain a number of supporting branches, which are used to develop new features. Supporting branches may branch off from and must be merged back into develop. 
 
-![Alt text](https://github.com/Shaun-McMurray/Group2DIT168/documentation/GitHubLayout.png "GitHub layout")
+![Alt text](https://raw.githubusercontent.com/Shaun-McMurray/Group2DIT168/master/documentation/GitHubLayout.png?token=AYH19h35EXk8qIAN4aD1V0JERPQBWXyhks5akZmhwA%3D%3D "GitHub layout")
 
 Branching off from the `develop` branch:
 ```
-$ git checkout -b myfeature develop
+git checkout -b myfeature develop
 ```
 Merging a finished feature into the `develop` branch:
 ```
-$ git checkout develop 			//switching to branch 'develop'
-$ git merge --no-ff myfeature		//merging the branch
-$ git branch -d myfeature		//deleting branch myfeature
-$ git push origin develop 		//pushing changes
+git checkout develop 			//switching to branch 'develop'
+git merge --no-ff myfeature		//merging the branch
+git branch -d myfeature		//deleting branch myfeature
+git push origin develop 		//pushing changes
 ```
 
 `master` and `develop` are protected branches to which changes can be pushed only through pull requests. Two members must review and approve the pull request before the changes are merged into the repository.
@@ -30,7 +29,7 @@ $ git push origin develop 		//pushing changes
 GitHub's issue tracker is used for task management.
 
 ## Getting started 
-Following instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+Following instructions will get you a copy of the project.
 
 ### Prerequisites
 - [OpenDaVINCI](http://opendavinci.readthedocs.io/)
@@ -51,7 +50,7 @@ Following instructions will get you a copy of the project up and running on your
 \- Motor [SKYRC Cheetah Brushless ESC]\
 \- Ultrasonic sensors (front and rear) [Devantech SRF08]\
 \- Infrared sensors (left and right) [Sharp GP2Y0A41SK0F]\
-\- RaspberryPi Camera Module v2\
+\- RaspberryPi Camera Module v2
 
 ## Contributing
 Please read our [Contributing.md](CONTRIBUTING.md) for more details. 
