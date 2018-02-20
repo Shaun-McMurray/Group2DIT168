@@ -1,5 +1,5 @@
 FROM alpine:3.7 as builder
-MAINTAINER Christian Berger christian.berger@gu.se
+MAINTAINER Group2 based on Christian Berger christian.berger@gu.se
 RUN apk update && \
     apk --no-cache add \
         ca-certificates \
@@ -17,7 +17,7 @@ RUN cd /opt/sources && \
 
 # Deploy.
 FROM alpine:3.7
-MAINTAINER Christian Berger christian.berger@gu.se
+MAINTAINER Group2 based on Christian Berger christian.berger@gu.se
 RUN apk update && \
     apk add libcluon --no-cache --repository https://chrberger.github.io/libcluon/alpine/v3.7 --allow-untrusted && \
     mkdir /opt
