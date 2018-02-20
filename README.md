@@ -59,7 +59,7 @@ To test:
 ./DIT168-Runner
 ```
 
-##Building and Testing with Docker
+## Building and Testing with Docker
 
 First pull the latest version:
 ```
@@ -81,7 +81,7 @@ To run your new built image:
 docker run --rm -ti --net=host yourtag
 ```
 
-##Building and Testing with Travis
+## Building and Testing with Travis
 
 When you are ready to commit changes to the project the build server will test and deploy your changes automatically.
 First you can check if your build succeeds on Github by seeing a green checkmark next to your commit or in the slack channel #buildstatus
