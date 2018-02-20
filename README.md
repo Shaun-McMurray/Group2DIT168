@@ -1,6 +1,8 @@
 # Group2DIT168
 A self driving miniature vehicle built on OpenDaVINICI and OpenDLV.
 
+Travis CI Repository build status for `master`: [![Build Status](https://travis-ci.com/Shaun-McMurray/Group2DIT168.svg?token=qF8z2Fwe6z8gsYFSM8LQ&branch=master)](https://travis-ci.com/Shaun-McMurray/Group2DIT168)
+
 ## Introduction
 The main goal of this project is to design, develop and test a self driving miniature vehicle which can communicate with other miniature vehicles and follow them based on the received data. In addition to following other vehicles, it will also have the ability to autonomously follow a lane. 
 
@@ -90,7 +92,6 @@ When your build succeeds your new Docker image is push to Docker Hub, to pull it
 docker pull sixonetwo/dit168:"your commit hash"
 ```
 
-
 ## Hardware used
 
 \- BeagleBone Blue board\
@@ -104,7 +105,7 @@ docker pull sixonetwo/dit168:"your commit hash"
 \- RaspberryPi Camera Module v2
 
 ## Contributing
-Please read our [Contributing.md](CONTRIBUTING.md) for more details. 
+Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for more details. 
 
 ## Authors
 - Gabriel Bulai
