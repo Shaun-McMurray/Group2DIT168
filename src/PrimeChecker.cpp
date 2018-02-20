@@ -1,5 +1,6 @@
 #include "PrimeChecker.hpp"
 
+//Inlcuded to have tests for demo
 
 bool PrimeChecker::isPrime(uint16_t n) {
 	bool retVal{true};

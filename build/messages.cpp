@@ -5,23 +5,23 @@
  */
 
 
-uint32_t MyTestMessage1::ID() {
+uint32_t Message::ID() {
     return 1001;
 }
 
-const std::string MyTestMessage1::ShortName() {
-    return "MyTestMessage1";
+const std::string Message::ShortName() {
+    return "Message";
 }
-const std::string MyTestMessage1::LongName() {
-    return "MyTestMessage1";
+const std::string Message::LongName() {
+    return "Message";
 }
 
-MyTestMessage1& MyTestMessage1::myValue(const uint16_t &v) noexcept {
-    m_myValue = v;
+Message& Message::sMessage(const std::string &v) noexcept {
+    m_sMessage = v;
     return *this;
 }
-uint16_t MyTestMessage1::myValue() const noexcept {
-    return m_myValue;
+std::string Message::sMessage() const noexcept {
+    return m_sMessage;
 }
 
 

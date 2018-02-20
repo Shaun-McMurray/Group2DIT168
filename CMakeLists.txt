@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
-project(helloworld)
+project(DIT168)
 set(CMAKE_CXX_STANDARD 14)
 
 find_package(libcluon REQUIRED)
@@ -12,12 +12,18 @@ add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/messages.cpp
                    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/messages.odvd)
 include_directories(SYSTEM ${CMAKE_BINARY_DIR})
 
-add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/helloworld.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/PrimeChecker.cpp ${CMAKE_BINARY_DIR}/messages.cpp)
-target_link_libraries(${PROJECT_NAME} ${CLUON_LIBRARIES})
+add_executable(Recieve src/Recieve.cpp
+${CMAKE_BINARY_DIR}/messages.cpp)
+target_link_libraries(Recieve ${CLUON_LIBRARIES})
 
+add_executable(Send src/Send.cpp
+${CMAKE_BINARY_DIR}/messages.cpp)
+target_link_libraries(Send ${CLUON_LIBRARIES})
+
+include_directories(${DIT168_SOURCE_DIR}/src)
 enable_testing()
-add_executable(${PROJECT_NAME}-Runner TestPrimeChecker.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/PrimeChecker.cpp ${CMAKE_BINARY_DIR}/messages.cpp)
+add_executable(${PROJECT_NAME}-Runner test/TestPrimeChecker.cpp
+src
+src/PrimeChecker.cpp ${CMAKE_BINARY_DIR}/messages.cpp)
 target_link_libraries(${PROJECT_NAME}-Runner ${CLUON_LIBRARIES})
 add_test(NAME ${PROJECT_NAME}-Runner COMMAND ${PROJECT_NAME}-Runner)

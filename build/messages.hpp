@@ -76,8 +76,8 @@ void doTripletForwardVisit(uint32_t fieldIdentifier, std::string &&typeName, std
 #endif
 
 
-#ifndef MYTESTMESSAGE1_HPP
-#define MYTESTMESSAGE1_HPP
+#ifndef MESSAGE_HPP
+#define MESSAGE_HPP
 
 #ifdef WIN32
     // Export symbols if compile flags "LIB_SHARED" and "LIB_EXPORTS" are set on Windows.
@@ -100,29 +100,29 @@ void doTripletForwardVisit(uint32_t fieldIdentifier, std::string &&typeName, std
 #include <utility>
 
 using namespace std::string_literals; // NOLINT
-class LIB_API MyTestMessage1 {
+class LIB_API Message {
     public:
-        MyTestMessage1() = default;
-        MyTestMessage1(const MyTestMessage1&) = default;
-        MyTestMessage1& operator=(const MyTestMessage1&) = default;
-        MyTestMessage1(MyTestMessage1&&) noexcept = default; // NOLINT
-        MyTestMessage1& operator=(MyTestMessage1&&) noexcept = default; // NOLINT
-        ~MyTestMessage1() = default;
+        Message() = default;
+        Message(const Message&) = default;
+        Message& operator=(const Message&) = default;
+        Message(Message&&) noexcept = default; // NOLINT
+        Message& operator=(Message&&) noexcept = default; // NOLINT
+        ~Message() = default;
 
     public:
         static uint32_t ID();
         static const std::string ShortName();
         static const std::string LongName();
         
-        MyTestMessage1& myValue(const uint16_t &v) noexcept;
-        uint16_t myValue() const noexcept;
+        Message& sMessage(const std::string &v) noexcept;
+        std::string sMessage() const noexcept;
         
 
         template<class Visitor>
         void accept(Visitor &visitor) {
             visitor.preVisit(ID(), ShortName(), LongName());
             
-            doVisit(1, std::move("uint16_t"s), std::move("myValue"s), m_myValue, visitor);
+            doVisit(1, std::move("std::string"s), std::move("sMessage"s), m_sMessage, visitor);
             
             visitor.postVisit();
         }
@@ -131,24 +131,24 @@ class LIB_API MyTestMessage1 {
         void accept(PreVisitor &&preVisit, Visitor &&visit, PostVisitor &&postVisit) {
             std::forward<PreVisitor>(preVisit)(ID(), ShortName(), LongName());
             
-            doTripletForwardVisit(1, std::move("uint16_t"s), std::move("myValue"s), m_myValue, preVisit, visit, postVisit);
+            doTripletForwardVisit(1, std::move("std::string"s), std::move("sMessage"s), m_sMessage, preVisit, visit, postVisit);
             
             std::forward<PostVisitor>(postVisit)();
         }
 
     private:
         
-        uint16_t m_myValue{ 0 }; // field identifier = 1.
+        std::string m_sMessage{ ""s }; // field identifier = 1.
         
 };
 
 
 template<>
-struct isVisitable<MyTestMessage1> {
+struct isVisitable<Message> {
     static const bool value = true;
 };
 template<>
-struct isTripletForwardVisitable<MyTestMessage1> {
+struct isTripletForwardVisitable<Message> {
     static const bool value = true;
 };
 #endif
