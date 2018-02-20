@@ -39,9 +39,57 @@ Following instructions will get you a copy of the project.
 - [CMake](http://derekmolloy.ie/hello-world-introductions-to-cmake)
 - [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 
-### Installing
+### Cloning, Building, and Testing
 
-### Running the tests
+To clone:
+```
+git clone https://github.com/Shaun-McMurray/Group2DIT168.git
+```
+
+To build:
+```
+cd build
+cmake ..
+make
+```
+
+When make is run a test runner is produced.
+To test:
+```
+./DIT168-Runner
+```
+
+##Building and Testing with Docker
+
+First pull the latest version:
+```
+docker pull sixonetwo/dit168:latest
+```
+
+Then to run the container:
+```
+docker run --rm -ti --net=host sixonetwo/dit168:latest
+```
+
+Tests are run during the build process, to run tests in docker, build a new docker image from the root project folder:
+```
+docker build -t yourtag .
+```
+
+To run your new built image:
+```
+docker run --rm -ti --net=host yourtag
+```
+
+##Building and Testing with Travis
+
+When you are ready to commit changes to the project the build server will test and deploy your changes automatically.
+First you can check if your build succeeds on Github by seeing a green checkmark next to your commit or in the slack channel #buildstatus
+When your build succeeds your new Docker image is push to Docker Hub, to pull it:
+```
+docker pull sixonetwo/dit168:"your commit hash"
+```
+
 
 ## Hardware used
 
