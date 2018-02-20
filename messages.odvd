@@ -1,0 +1,3 @@
+message Message [id = 1001] {
+	string sMessage [id = 1];
+}
