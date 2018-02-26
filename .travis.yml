@@ -24,7 +24,6 @@ script:
 after_success:
   - docker login -u $DOCKERUSERNAME -p $DOCKERPASSWORD
   - export REPO=`if [ "$DOCKERFILE" == "Dockerfile.arm" ]; then echo "sixonetwo/dit168-arm"; else echo sixonetwo/dit168 ; fi`
-  - export REPO=sixonetwo/dit168
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - docker build -f $DOCKERFILE -t $REPO:$COMMIT .
   - docker tag $REPO:$COMMIT $REPO:$TAG
