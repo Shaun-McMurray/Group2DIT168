@@ -12,8 +12,8 @@ env:
     - COMMIT=${TRAVIS_COMMIT::8}
 
   matrix:
-    -DOCKERFILE=Dockerfile
-    -DOCKERFILE=Dockerfile.arm
+    - DOCKERFILE=Dockerfile
+    - DOCKERFILE=Dockerfile.arm
 
 install:
 - docker build -f $DOCKERFILE -t test .
