@@ -15,7 +15,7 @@ Once the source code in the `develop` branch contains stable and deliverable cod
 
 ![alt text][gitlayout]
 
-[gitlayout]: https://raw.githubusercontent.com/Shaun-McMurray/Group2DIT168/master/documentation/GitHubLayout.png?token=AYDzFepkXWG_fnySxF0kTgjIEATQYVmhks5aku4UwA%3D%3D "GitHub layout"
+[gitlayout]: https://raw.githubusercontent.com/Shaun-McMurray/Group2DIT168/master/documentation/GitHubLayout.png?token=AYDzFY2dAXVke-YfZFBUoF8dg5zghcaeks5anPShwA%3D%3D "GitHub layout"
 
 Branching off from the `develop` branch:
 ```
@@ -117,7 +117,7 @@ Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
 1.0.0 Nina Uljanic (2018-02-17)
 
 ## License
-This project is lincesed under the MIT license. 
+This project is lincesed under GLP-2.0. 
 
 ## Acknowledgments
 - Christian Berger - professor
