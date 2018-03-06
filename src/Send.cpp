@@ -19,7 +19,7 @@ int main(int /*argc*/, char** /*argv*/) {
 
 
 	cluon::OD4Session od4(111,
-        [](cluon::data::Envelope &&envelope) noexcept {});
+        [](cluon::data::Envelope &&envelope) noexcept {std::move(envelope);});
 
 	
 	while(1){
