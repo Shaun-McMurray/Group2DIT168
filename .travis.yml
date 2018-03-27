@@ -15,6 +15,13 @@ env:
     - DOCKERFILE=Dockerfile
     - DOCKERFILE=Dockerfile.arm
 
+before_script: 
+  - if [ $TRAVIS_BRANCH != "master" ] && [ $TRAVIS_BRANCH != "develop" ]; then
+            cd $TRAVIS_BRANCH
+        else 
+            echo "Skip version increment!"; 
+        fi
+
 install:
 - docker build -f $DOCKERFILE -t test .
 
