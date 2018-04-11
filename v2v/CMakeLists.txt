@@ -16,7 +16,7 @@ add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/Messages.cpp
 
 include_directories(SYSTEM ${CMAKE_BINARY_DIR})
 
-add_executable(${PROJECT_NAME}.Service ${CMAKE_CURRENT_SOURCE_DIR}/v2v-leading.cpp ${CMAKE_BINARY_DIR}/Messages.cpp)
+add_executable(${PROJECT_NAME}.Service ${CMAKE_CURRENT_SOURCE_DIR}/v2v-leading.cpp ${CMAKE_BINARY_DIR}/Messages.cpp ${CMAKE_CURRENT_SOURCE_DIR}/V2VService.cpp)
 target_link_libraries(${PROJECT_NAME}.Service ${CLUON_LIBRARIES})
 
 # enable_testing()
