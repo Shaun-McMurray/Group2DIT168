@@ -1,3 +1,7 @@
 message MyTestMessage1 [id = 2001] {
     uint16 myValue [id = 1];
 }
+
+message PedalPos [id = 2002] {
+	uint16 pedalPosition [id = 1]
+}

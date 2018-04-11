@@ -21,6 +21,7 @@ var g_chartConfigs = new Map();
 var g_data = new Map();
 var g_pause = false;
 
+
 $(document).ready(function(){
   
   $('body').on('click', 'tr.dataHeader', function() {
