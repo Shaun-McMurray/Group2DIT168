@@ -42,6 +42,7 @@ public:
     void stopFollow(std::string vehicleIp);
     void leaderStatus(float speed, float steeringAngle, uint8_t distanceTraveled);
     void followerStatus();
+    int leading = 0;
 
 private:
     std::string leaderIp;
