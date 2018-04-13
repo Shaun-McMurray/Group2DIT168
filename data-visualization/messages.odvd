@@ -3,5 +3,33 @@ message MyTestMessage1 [id = 2001] {
 }
 
 message PedalPos [id = 2002] {
-	uint16 pedalPosition [id = 1]
+	uint16 pedalPosition [id = 1];
+}
+
+message Message [id = 1001] {
+	string sMessage [id = 1];
+}
+
+message opendlv.proxy.VoltageReading [id = 1037] {
+  float voltage [id = 1];
+}
+
+message opendlv.proxy.DistanceReading [id = 1039] {
+  float distance [id = 1];
+}
+
+message opendlv.proxy.GroundSteeringReading [id = 1045] {
+  float steeringAngle [id = 1];
+}
+
+message opendlv.proxy.PedalPositionReading [id = 1041] {
+  float percent [id = 1];
+}
+
+message CarControllerPedal [id = 1002] {
+	float pedal [id = 1];
+}
+
+message CarControllerSteering [id = 1003] {
+	float steering [id = 1];
 }

@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
-     <link rel="stylesheet" href="http://yoannmoinet.github.io/nipplejs/stylesheets/styles.css" media="screen" title="no title" charset="utf-8">
-        <link rel="stylesheet" href="http://yoannmoinet.github.io/nipplejs/stylesheets/github-light.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="http://yoannmoinet.github.io/nipplejs/stylesheets/styles.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="http://yoannmoinet.github.io/nipplejs/stylesheets/github-light.css" media="screen" title="no title" charset="utf-8">
   </head>
 
   <body>
@@ -41,7 +41,11 @@
         <th class="signal-timestamp">Timestamp</th>
       </tr>
     </table>
-
+    <div id="notification" style="display: none;">
+  <span class="dismiss"><a title="dismiss this notification">x</a></span>
+</div>
+<div class="Row">
+    <div class="Column">
   <div class="speedbox" onclick="speedClick()">
   <div class="speedbox__score" id="speedbox-score"></div>
   <div class="speedbox__groove"></div>
@@ -55,9 +59,19 @@
     <div class="speedbox__base"></div>
 
   </div>
+</div>
+<div class="Column">
+  <div class="content">
+      <div class="wrapper" style="max-width: 420px; margin: auto">
+        <canvas id="radar"></canvas>
+      </div>
+      <div id="chart-analyser" class="analyser"></div>
+    </div>
+    </div>
+</div>
         <div class="dynamic active highlight highlight-javascript">
-        <div id="buttons">
-            <div data-type="dynamic" class="active button dynamic">dynamic</div>
+        <div id="buttons" style="display: none;">
+           <div data-type="dynamic" class="active button dynamic"></div>
         </div>
         <div id="zone_joystick" class="zone dynamic active">
             <div id="debug">
@@ -94,7 +108,7 @@
         </div>
         <br/>
         <script src="nipplejs.js" charset="utf-8"></script>
-        <script>
+        <!--script>
             var s = function (sel) { return document.querySelector(sel); };
             var sId = function (sel) { return document.getElementById(sel); };
             var removeClass = function (el, clss) {
@@ -209,7 +223,9 @@
                     nbEvents += 1;
                 }, 0);
             }
-        </script>
+        </script>-->
+
+   
 
 <!--
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -218,14 +234,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 -->
-    <script type="text/javascript" src="jquery-3.2.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="nipplejs.min.js"></script>
     <script type="text/javascript" src="popper.min.js"></script>
     <script type="text/javascript" src="moment-with-locales.min.js"></script>
     <script type="text/javascript" src="Chart.js"></script>
     <script type="text/javascript" src="bootstrap.min.js"></script>
-
-    <script type="text/javascript" src="libcluon-0.0.45.js"></script>
+    <script type="text/javascript" src="libcluon.js"></script>
     <script type="text/javascript" src="libcluon-viewer-0.01.js"></script>
   </body>
 </html>

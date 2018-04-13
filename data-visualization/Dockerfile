@@ -17,7 +17,7 @@ FROM alpine:3.7
 MAINTAINER Christian Berger "christian.berger@gu.se"
 
 RUN apk add libcluon --no-cache --repository https://chrberger.github.io/libcluon/alpine/v3.7 --allow-untrusted
-RUN mkdir -p /opt/bin && wget -O /opt/bin/websocketd https://github.com/se-research/websocketd-alpine/raw/master/x86_64/websocketd && chmod 755 /opt/bin/websocketd
+RUN mkdir -p /opt/bin && wget -O /opt/bin/websocketd https://github.com/se-research/websocketd-alpine/raw/master/x86_64/websocketd && chmod 755 /opt/bin/websocketd 
 RUN mkdir /opt/signal-viewer
 ADD . /opt/signal-viewer
-ENTRYPOINT ["/opt/bin/websocketd", "--staticdir=/opt/signal-viewer", "--port=8080", "--binary=true", "/bin/cluon-OD4toStdout"]
+ENTRYPOINT ["/opt/bin/websocketd", "--staticdir=/opt/signal-viewer", "--port=8081", "--binary=true", "/bin/cluon-OD4toStdout"]

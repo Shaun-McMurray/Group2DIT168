@@ -21,6 +21,10 @@ var g_chartConfigs = new Map();
 var g_data = new Map();
 var g_pause = false;
 
+let lc;
+let ws;
+let date = new Date();
+let lastControllerMessage;
 
 $(document).ready(function(){
   
@@ -48,14 +52,19 @@ function speedClick(){
   document.getElementById("pedalPosition").innerHTML = testSpeed;
   document.getElementById("currentSpeed").innerHTML = testSpeed;
   $("#speedbox-score").css("transform","rotate("+testSpeed+"deg)");
+  $("#notification").fadeIn("slow").append('New follower request! Click to accept or dismiss thata way -->');
+  $(".dismiss").click(function(){
+       $("#notification").fadeOut("slow");
+});
+  sendMessage(lc, ws, testSpeed);
 }
 
 
 function setupViewer() {
-  var lc = libcluon();
+  lc = libcluon();
 
   if ("WebSocket" in window) {
-    var ws = new WebSocket("ws://" + window.location.host + "/");
+    ws = new WebSocket("ws://" + window.location.host + "/");
     ws.binaryType = 'arraybuffer';
 
     ws.onopen = function() {
@@ -100,6 +109,8 @@ function onStreamClosed() {
 
 function onMessageReceived(lc, msg) {
 
+  console.log('Recieved a message');
+
   if (g_pause) {
     return;
   }
@@ -140,12 +151,22 @@ function onMessageReceived(lc, msg) {
     sent : d.sent
   };
   // .. done.
-
-  console.log(data.payloadName);
-  console.log(data.PayloadField);
+  console.log(data);
+  console.log(data.payload.fields[0].value);
+  console.log(data.payload.fields[0].name);
   const sourceKey = data.dataType + '_' + data.senderStamp;
   const dataSourceIsKnown = g_data.has(sourceKey);
+  if(data.payload.fields[0].name == 'pedal') {
+    document.getElementById("pedalPosition").innerHTML = data.payload.fields[0].value * 100;
+    document.getElementById("currentSpeed").innerHTML = data.payload.fields[0].value;
 
+    $("#speedbox-score").css("transform","rotate("+data.payload.fields[0].value  * 100 +"deg)");
+  }else if(data.payload.fields[0].name == 'distance') {
+    updateRadar(data);
+  }else if(data.payload.fields[0].name == 'voltage') {
+    data.senderStamp = data.senderStamp + 2;
+    updateRadar(data);
+  }
   if (!dataSourceIsKnown) {
     addTableData(sourceKey, data);
     addFieldCharts(sourceKey, data);
@@ -406,5 +427,296 @@ function updateFieldCharts(sourceKey, dataList) {
       const chart = g_charts[fieldKey];
       chart.update();
     }
+  }
+}
+
+    
+    var Months = [
+      'Front',
+      'Front Right',
+      'Right',
+      'Back Right',
+      'Back',
+      'Back Left',
+      'Left',
+      'Front Left'
+    ];
+    var radarData = {
+      labels: Months,
+      datasets: [{
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: [0, 0, 0, 0, 0, 0, 0, 0],
+        label: 'Front',
+        lineTension: 0.2
+      }, {
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: [20, 10],
+        hidden: true,
+        label: 'Back',
+        lineTension: 0.2
+      }, {
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: [20, 10],
+        label: 'Left',
+        lineTension: 0.2
+      }, {
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: [20, 10],
+        label: 'Right',
+        lineTension: 0.2
+      }]
+    };
+    var options = {
+      maintainAspectRatio: true,
+      spanGaps: false,
+      elements: {
+        line: {
+          tension: 0.000001
+        }
+      },
+      plugins: {
+        filler: {
+          propagate: false
+        },
+        'samples-filler-analyser': {
+          target: 'chart-analyser'
+        }
+      }
+      
+    };
+    var chart = new Chart('radar', {
+      type: 'radar',
+      data: radarData,
+      options: options
+    });
+    console.log(chart.options);
+    chart.options.scale.gridLines.circular = true;
+    chart.options.scale.ticks.beginAtZero = true;
+    chart.options.scale.ticks.max = 100;
+
+    // eslint-disable-next-line no-unused-vars
+    function togglePropagate(btn) {
+      var value = btn.classList.toggle('btn-on');
+      chart.options.plugins.filler.propagate = value;
+      chart.update();
+    }
+    // eslint-disable-next-line no-unused-vars
+    function toggleSmooth(btn) {
+      var value = btn.classList.toggle('btn-on');
+      chart.options.elements.line.tension = value ? 0.4 : 0.000001;
+      chart.update();
+    }
+
+
+
+function sendMessage(lc, ws, jsonMessageToBeSent, messageID) {
+  // __libcluon is your handle to libcluon.
+   // ws is your websocket
+   //var jsonMessageToBeSent = "{\"pedal\":" + val + "}";
+
+   
+   var protoEncodedPayload = lc.encodeEnvelopeFromJSONWithoutTimeStamps(jsonMessageToBeSent, messageID, 0);  // 19 is the message identifier from your .odvd file, 0 is the senderStamp (can be 0 in your case)
+
+   strToAB = str =>
+     new Uint8Array(str.split('')
+       .map(c => c.charCodeAt(0))).buffer;
+
+   ws.send(strToAB(protoEncodedPayload), { binary: true });
+}
+
+var s = function (sel) { return document.querySelector(sel); };
+var sId = function (sel) { return document.getElementById(sel); };
+var removeClass = function (el, clss) {
+    el.className = el.className.replace(new RegExp('\\b' + clss + ' ?\\b', 'g'), '');
+}
+var joysticks = {
+    dynamic: {
+        zone: s('.zone.dynamic'),
+        color: 'blue',
+        multitouch: true
+    },
+    semi: {
+        zone: s('.zone.semi'),
+        mode: 'semi',
+        catchDistance: 150,
+        color: 'white'
+    },
+    static: {
+        zone: s('.zone.static'),
+        mode: 'static',
+        position: {left: '50%', top: '50%'},
+        color: 'red'
+    }
+};
+var joystick;
+
+
+
+// Get debug elements and map them
+var elDebug = sId('debug');
+var elDump = elDebug.querySelector('.dump');
+var els = {
+    position: {
+        x: elDebug.querySelector('.position .x .data'),
+        y: elDebug.querySelector('.position .y .data')
+    },
+    force: elDebug.querySelector('.force .data'),
+    pressure: elDebug.querySelector('.pressure .data'),
+    distance: elDebug.querySelector('.distance .data'),
+    angle: {
+        radian: elDebug.querySelector('.angle .radian .data'),
+        degree: elDebug.querySelector('.angle .degree .data')
+    },
+    direction: {
+        x: elDebug.querySelector('.direction .x .data'),
+        y: elDebug.querySelector('.direction .y .data'),
+        angle: elDebug.querySelector('.direction .angle .data')
+    }
+};
+
+sId('buttons').onclick = createNipple;
+createNipple('dynamic');
+
+function bindNipple () {
+    joystick.on('start end', function (evt, data) {
+        let jsonPedal = "{\"pedal\":" + 0 + "}";
+        sendMessage(lc, ws, jsonPedal, 1002);
+
+        let jsonSteering = "{\"steering\":" + 0 + "}";
+        sendMessage(lc, ws, jsonSteering, 1003);
+        dump(evt.type);
+        debug(data);
+    }).on('move', function (evt, data) {
+        calculateControl(data);
+        debug(data);
+    }).on('dir:up plain:up dir:left plain:left dir:down ' +
+        'plain:down dir:right plain:right',
+        function (evt, data) {
+            dump(evt.type);
+        }
+    ).on('pressure', function (evt, data) {
+        debug({pressure: data});
+    });
+}
+
+function createNipple (evt) {
+    var type = typeof evt === 'string' ?
+        evt : evt.target.getAttribute('data-type');
+    if (joystick) {
+        joystick.destroy();
+    }
+    removeClass(s('.zone.active'), 'active');
+    removeClass(s('.button.active'), 'active');
+    removeClass(s('.highlight.active'), 'active');
+    s('.highlight.' + type).className += ' active';
+    s('.button.' + type).className += ' active';
+    s('.zone.' + type).className += ' active';
+    joystick = nipplejs.create(joysticks[type]);
+    bindNipple();
+}
+
+// Print data into elements
+function debug (obj) {
+    function parseObj(sub, el) {
+        for (var i in sub) {
+            if (typeof sub[i] === 'object' && el) {
+                parseObj(sub[i], el[i]);
+            } else if (el && el[i]) {
+                el[i].innerHTML = sub[i];
+            }
+        }
+    }
+    setTimeout(function () {
+        parseObj(obj, els);
+    }, 0);
+}
+
+var nbEvents = 0;
+
+// Dump data
+function dump (evt) {
+    setTimeout(function () {
+        if (elDump.children.length > 4) {
+            elDump.removeChild(elDump.firstChild);
+        }
+        var newEvent = document.createElement('div');
+        newEvent.innerHTML = '#' + nbEvents + ' : <span class="data">' +
+            evt + '</span>';
+        elDump.appendChild(newEvent);
+        nbEvents += 1;
+    }, 0);
+}
+
+function calculateControl(data) {
+  let pedalPercent;
+  let steeringAngle;
+
+  let newDate = new Date();
+  let thisControllerMessage = newDate.getTime();
+
+  if(thisControllerMessage - lastControllerMessage < 500){
+    return;
+  }
+  pedalPercent = data.distance / 100;
+  steeringAngle = data.angle.degree - 90;
+
+  if(data.angle.degree > 180) {
+    pedalPercent = pedalPercent * -1;
+    steeringAngle = steeringAngle - 180;
+  }
+  steeringAngle = steeringAngle / 2;
+  console.log(steeringAngle);
+
+  let jsonPedal = "{\"pedal\":" + pedalPercent + "}";
+  sendMessage(lc, ws, jsonPedal, 1002);
+
+  let jsonSteering = "{\"steering\":" + steeringAngle + "}";
+  sendMessage(lc, ws, jsonSteering, 1003);
+
+  date = new Date;
+  lastControllerMessage = date.getTime();
+}
+
+//function sendLeaderStatus() {
+  //let jsonLeaderStatus = "{\"timestamp\":" + Math.floor(Date.now() / 1000) + ",\"speed\":" + pedalPercent + ",\"steeringAngle\":" + steeringAngle + ",\"distanceTraveled\":" + Math.floor(Date.now() / 1000) + "}";
+//}
+
+function updateRadar(data) {
+  let sensorID = data.senderStamp;
+  if(sensorID == 0) {
+    let distanceRead = data.payload.fields[0].value * 100;
+    //backgroundColor: 'rgb(255, 99, 132)',
+      //  borderColor:
+    radarData.datasets[0].backgroundColor = 'rgb(30, 201, 33)';
+    radarData.datasets[0].data = [distanceRead, distanceRead, 0, 0, 0, 0, 0, distanceRead];
+    chart.update();
+  }else if(sensorID == 1) {
+    let distanceRead = data.payload.fields[0].value * 100;
+    console.log(radarData);
+    //backgroundColor: 'rgb(255, 99, 132)',
+      //  borderColor:
+    radarData.datasets[1].backgroundColor = 'rgb(30, 201, 33)';
+    radarData.datasets[1].data = [0, 0, 0, distanceRead, distanceRead, distanceRead, 0, 0];
+    chart.update();
+  }else if(sensorID == 2) {
+    let distanceRead = data.payload.fields[0].value * 50;
+    console.log(radarData);
+    //backgroundColor: 'rgb(255, 99, 132)',
+      //  borderColor:
+    radarData.datasets[2].backgroundColor = 'rgb(30, 201, 200)';
+    radarData.datasets[2].data = [0, 0, 0, 0, 0, distanceRead, distanceRead, distanceRead];
+    chart.update();
+  }else if(sensorID == 3) {
+    let distanceRead = data.payload.fields[0].value * 50;
+    console.log(radarData);
+    //backgroundColor: 'rgb(255, 99, 132)',
+      //  borderColor:
+    radarData.datasets[3].backgroundColor = 'rgb(200, 201, 33)';
+    radarData.datasets[3].data = [0, distanceRead, distanceRead, distanceRead, 0, 0, 0, 0];
+    chart.update();
   }
 }

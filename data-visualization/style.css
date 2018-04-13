@@ -164,7 +164,7 @@ td.field-plot {
 .button {
     display: inline-block;
     background: #ccc;
-    color: black;
+    color: white;
     height: 50px;
     width: 33%;
     margin: 0;
@@ -184,7 +184,7 @@ td.field-plot {
     background: #eee;
 }
 .button:active {
-    background: #ddd;
+    background: #000;
 }
 .button.active {
     color: white;
@@ -227,4 +227,40 @@ td.field-plot {
 }
 .zone.static {
     background: rgba(255, 0, 0, 0.1);
+}
+
+.Row
+{
+    display: table;
+    
+}
+.Column
+{
+    display: table-cell;
+}
+
+#notification {
+    position:fixed;
+    top:0px;
+    width:90%;
+    z-index:105;
+    text-align:center;
+    font-weight:normal;
+    font-size:14px;
+    font-weight:bold;
+    color:white;
+    background-color:#082149;
+    padding:5px;
+}
+#notification span.dismiss {
+    border:2px solid #FFF;
+    padding:0 5px;
+    cursor:pointer;
+    float:right;
+    margin-right:10px;
+}
+#notification a {
+    color:white;
+    text-decoration:none;
+    font-weight:bold
 }
