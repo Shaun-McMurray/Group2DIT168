@@ -1,6 +1,6 @@
 
 FROM pipill/armhf-alpine:edge
-MAINTAINER Christian Berger "christian.berger@gu.se"
+MAINTAINER Group 2
 
 RUN [ "cross-build-start" ]
 
