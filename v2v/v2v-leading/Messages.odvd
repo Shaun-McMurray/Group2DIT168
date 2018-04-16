@@ -21,3 +21,15 @@ message LeaderStatus [id = 2001] {
 
 message FollowerStatus [id = 3001] {
 }
+
+message Pedal_position [id = 9001] {
+    float speed [id = 1];
+}
+
+message Steering_angle [id = 9002] {
+    float steeringAngle [id = 1];
+}
+
+message Distance_traveled [id = 9003] {
+    uint8 distanceTraveled [id = 1];
+}
