@@ -34,6 +34,7 @@ V2VService::V2VService() {
     incoming =
         std::make_shared<cluon::UDPReceiver>("0.0.0.0", DEFAULT_PORT,
            [this](std::string &&data, std::string &&sender, std::chrono::system_clock::time_point &&ts) noexcept {
+               std::move(ts);
                std::cout << "[UDP] ";
                std::pair<int16_t, std::string> msg = extract(data);
 
@@ -212,7 +213,7 @@ std::pair<int16_t, std::string> V2VService::extract(std::string data) {
     ssId >> std::hex >> id;
     ssLen >> std::hex >> len;
     return std::pair<int16_t, std::string> (
-            data.length() -10 == len ? id : -1,
+            data.length() -10 ==(unsigned) (len ? id : -1),
             data.substr(10, data.length() -10)
     );
 };

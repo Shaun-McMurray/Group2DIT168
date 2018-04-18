@@ -13,17 +13,17 @@
 
 /** ADD YOUR CAR_IP AND GROUP_ID HERE:  *****************/
 
-static const std::string YOUR_CAR_IP    = "172.20.10.6";
-static const std::string YOUR_GROUP_ID  = "2";
+static const std::string YOUR_CAR_IP    = "192.168.43.117";
+static const std::string YOUR_GROUP_ID  = "99";
 
 /********************************************************/
 /** DON'T CHANGE STUFF BELOW THIS LINE. *****************/
 /********************************************************/
 
-static const int BROADCAST_CHANNEL = 250;
+static const int BROADCAST_CHANNEL = 30;
 static const int DEFAULT_PORT = 50001;
 
-static const int ANNOUNCE_PRESENCE = 1001;
+static const int ANNOUNCE_PRESENCE = 9001;
 static const int FOLLOW_REQUEST = 1002;
 static const int FOLLOW_RESPONSE = 1003;
 static const int STOP_FOLLOW = 1004;
@@ -35,6 +35,7 @@ public:
     std::map <std::string, std::string> presentCars;
 
     V2VService();
+    int leading = 0;
 
     void announcePresence();
     void followRequest(std::string vehicleIp);
@@ -42,7 +43,6 @@ public:
     void stopFollow(std::string vehicleIp);
     void leaderStatus(float speed, float steeringAngle, uint8_t distanceTraveled);
     void followerStatus();
-    int leading = 0;
 
 private:
     std::string leaderIp;

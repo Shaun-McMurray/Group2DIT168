@@ -2,26 +2,34 @@
 
 
 OD4Conn::OD4Conn() {
-    cluon::OD4Session od4(CHANNEL, [this](cluon::data::Envelope &&envelope) noexcept {
-        switch(envelope.dataType()) {
-            case PEDAL_POSITION: {
-                Pedal_position pp = cluon::extractMessage<Pedal_position>(std::move(envelope));
-                OD4Conn::setPedalPosition(pp.speed());
-                }
-                break;
-            case STEERING_ANGLE:{
-                Steering_angle sa = cluon::extractMessage<Steering_angle>(std::move(envelope));
-                OD4Conn::setSteeringAngle(sa.steeringAngle());
-                }
-                break;
-            case DISTANCE_TRAVELED:{
-                Distance_traveled da = cluon::extractMessage<Distance_traveled>(std::move(envelope));
-                OD4Conn::setDistanceTraveled(da.distanceTraveled());
-                }
-                break;
-            default:
-                break;
-        }
+    broadcast =
+        std::make_shared<cluon::OD4Session>(CHANNEL,
+          [this](cluon::data::Envelope &&envelope) noexcept {
+              std::cout << "[OD4] ";
+              std::cout << envelope.dataType() << std::endl;
+              switch(envelope.dataType()) {
+                  case PEDAL_POSITION: {
+                      std::cout << "test0" << std::endl;
+                      Pedal_position pp = cluon::extractMessage<Pedal_position>(std::move(envelope));
+                      OD4Conn::setPedalPosition(pp.speed());
+                      std::cout << "test1" << std::endl;
+                      }
+                      break;
+                  case STEERING_ANGLE:{
+                      Steering_angle sa = cluon::extractMessage<Steering_angle>(std::move(envelope));
+                      OD4Conn::setSteeringAngle(sa.steeringAngle());
+                      std::cout << "test2" << std::endl;
+                      }
+                      break;
+                  case DISTANCE_TRAVELED:{
+                      Distance_traveled da = cluon::extractMessage<Distance_traveled>(std::move(envelope));
+                      OD4Conn::setDistanceTraveled(da.distanceTraveled());
+                      std::cout << "test3" << std::endl;
+                      }
+                      break;
+                  default:
+                      break;
+              }
     });
 }  
 
