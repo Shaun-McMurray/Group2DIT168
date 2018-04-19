@@ -1,13 +1,6 @@
-message MyTestMessage1 [id = 2001] {
-    uint16 myValue [id = 1];
-}
 
 message PedalPos [id = 2002] {
 	uint16 pedalPosition [id = 1];
-}
-
-message Message [id = 1001] {
-	string sMessage [id = 1];
 }
 
 message opendlv.proxy.VoltageReading [id = 1037] {
@@ -26,10 +19,34 @@ message opendlv.proxy.PedalPositionReading [id = 1041] {
   float percent [id = 1];
 }
 
-message CarControllerPedal [id = 1002] {
+message CarControllerPedal [id = 100] {
 	float pedal [id = 1];
 }
 
-message CarControllerSteering [id = 1003] {
+message CarControllerSteering [id = 10055] {
 	float steering [id = 1];
+}
+
+message AnnouncePresence [id = 1001] {
+  string vehicleIp [id = 1];
+  string groupId [id = 3];
+}
+
+message FollowRequest [id = 1002] {
+}
+
+message FollowResponse [id = 1003] {
+}
+
+message StopFollow [id = 1004] {
+}
+
+message LeaderStatus [id = 2001] {
+  uint32 timestamp [id = 1];
+  float speed [id = 2];
+  float steeringAngle [id = 3];
+  uint8 distanceTraveled [id = 4];
+}
+
+message FollowerStatus [id = 3001] {
 }
