@@ -63,6 +63,18 @@
               <div class="speedbox__base"></div>
             </div>
           </div>
+          <div class="row">
+            <div class="content">
+              <div class="wrapper" style="max-width: 420px; margin: auto">
+                <canvas id="positionChart"></canvas>
+              </div>
+              <div id="chart-analyser" class="analyser"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div id="imu">
+            </div>
+          </div>
         </div>
         <div class="col">
           <div class="dynamic active highlight highlight-javascript">
@@ -106,6 +118,8 @@
         </div>
       </div>
     </div>
+    <script src="https://unpkg.com/three@0.85.0/build/three.js"></script>
+    <script src="https://unpkg.com/three@0.85.0/examples/js/controls/OrbitControls.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="libs/js/nipplejs.min.js"></script>
     <script type="text/javascript" src="libs/js/popper.min.js"></script>
@@ -114,6 +128,8 @@
     <script type="text/javascript" src="libs/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="libs/js/libcluon.js"></script>
     <script type="text/javascript" src="scripts/Websocket.js"></script>
+    <script type="text/javascript" src="scripts/IMU.js"></script>
+    <script type="text/javascript" src="scripts/PositionChart.js"></script>
     <script type="text/javascript" src="scripts/Joystick.js"></script>
     <script type="text/javascript" src="scripts/Radar.js"></script>
   </body>

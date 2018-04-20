@@ -19,11 +19,11 @@ message opendlv.proxy.PedalPositionReading [id = 1041] {
   float percent [id = 1];
 }
 
-message CarControllerPedal [id = 100] {
+message CarControllerPedal [id = 1112] {
 	float pedal [id = 1];
 }
 
-message CarControllerSteering [id = 10055] {
+message CarControllerSteering [id = 1113] {
 	float steering [id = 1];
 }
 

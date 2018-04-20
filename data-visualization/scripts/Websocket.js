@@ -37,11 +37,14 @@ function speedClick(){
   document.getElementById("pedalPosition").innerHTML = testSpeed;
   document.getElementById("currentSpeed").innerHTML = testSpeed;
   $("#speedbox-score").css("transform","rotate("+testSpeed+"deg)");
-  $("#notification").fadeIn("slow").append('New follower request! Click to accept or dismiss thata way -->');
-  $(".dismiss").click(function(){
-       $("#notification").fadeOut("slow");
-});
-  sendMessage(lc, ws, testSpeed);
+  let ip = '192.168.8.1';
+  let groupId = '2';
+  let objAnnounce = {
+    vehicleIp: ip,
+    groupId: groupId
+  };
+  let jsonAnnounce = JSON.stringify(objAnnounce);
+  sendMessage(lc, ws, jsonAnnounce, 1001);
 }
 
 
@@ -105,6 +108,7 @@ function onMessageReceived(lc, msg) {
   if (data_str.length == 2) {
     return;
   }
+  console.log(data_str);
 
   d = JSON.parse(data_str);
 
@@ -151,8 +155,13 @@ function onMessageReceived(lc, msg) {
   }else if(data.payload.fields[0].name == 'voltage') {
     data.senderStamp = data.senderStamp + 2;
     updateRadar(data);
+  }else if(data.dataType == 1001) {
+    $("#notification").fadeIn("slow").append('New follower request! Click to accept or dismiss thata way -->');
+    $(".dismiss").click(function(){
+       $("#notification").fadeOut("slow");
+    });
   }
-  if (!dataSourceIsKnown) {
+  if(!dataSourceIsKnown) {
     addTableData(sourceKey, data);
     addFieldCharts(sourceKey, data);
     

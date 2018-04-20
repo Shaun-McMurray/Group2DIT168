@@ -58,10 +58,10 @@ createNipple('dynamic');
 function bindNipple () {
     joystick.on('start end', function (evt, data) {
         let jsonPedal = "{\"pedal\":" + 0 + "}";
-        sendMessage(lc, ws, jsonPedal, 1002);
+        sendMessage(lc, ws, jsonPedal, 1112);
 
         let jsonSteering = "{\"steering\":" + 0 + "}";
-        sendMessage(lc, ws, jsonSteering, 1003);
+        sendMessage(lc, ws, jsonSteering, 1113);
         dump(evt.type);
         debug(data);
     }).on('move', function (evt, data) {
@@ -146,10 +146,10 @@ function calculateControl(data) {
   console.log(steeringAngle);
 
   let jsonPedal = "{\"pedal\":" + pedalPercent + "}";
-  sendMessage(lc, ws, jsonPedal, 1002);
+  sendMessage(lc, ws, jsonPedal, 1112);
 
   let jsonSteering = "{\"steering\":" + steeringAngle + "}";
-  sendMessage(lc, ws, jsonSteering, 1003);
+  sendMessage(lc, ws, jsonSteering, 1113);
 
   date = new Date;
   lastControllerMessage = date.getTime();

@@ -76,7 +76,7 @@ let chart = new Chart('radar', {
   options: options
 });
 
-console.log(chart.options);
+//console.log(chart.options);
 chart.options.scale.gridLines.circular = true;
 chart.options.scale.ticks.beginAtZero = true;
 chart.options.scale.ticks.max = 100;
