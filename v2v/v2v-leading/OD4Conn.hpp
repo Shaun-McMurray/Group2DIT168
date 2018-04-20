@@ -28,7 +28,7 @@ private:
     float pedalPosition = 0;
     float steeringAngle = 0;
     uint8_t distanceTraveled = 0;
-std::shared_ptr<cluon::OD4Session>  broadcast;
+    std::shared_ptr<cluon::OD4Session>  broadcast;
 
 
 
