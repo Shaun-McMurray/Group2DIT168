@@ -17,7 +17,3 @@ message CarControllerPedal [id = 1002] {
 message CarControllerSteering [id = 1003] {
 	float steering [id = 1];
 }
-
-message opendlv.proxy.DistanceReading [id = 1039] {
-  float distance [id = 1];
-}
