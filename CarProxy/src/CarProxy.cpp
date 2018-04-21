@@ -12,9 +12,9 @@
 
 void sendPedalPositionReading(float pedal);
 void sendGroundSteeringReading(float steering);
+void stopWhenObstacle(float distance);
 
 std::clock_t start;
-
 
 int main(int /*argc*/, char** /*argv*/) {
 
@@ -31,10 +31,17 @@ int main(int /*argc*/, char** /*argv*/) {
         }
     });
 
+    cluon::OD4Session od4_obstacle(112,[](cluon::data::Envelope &&envelope) noexcept {
+        if(envelope.dataType() == 1039){ 
+            opendlv::proxy::DistanceReading receivedMsg = cluon::extractMessage<opendlv::proxy::DistanceReading>(std::move(envelope));
+            stopWhenObstacle(receivedMsg.distance());
+        }
+    });
+
     if(od4.isRunning() == 0){
         std::cout << "ERROR: No od4 running!!!" << std::endl;
         return -1;
-    }
+    } 
 
     double duration;
     opendlv::proxy::PedalPositionReading msgPedal;
@@ -66,7 +73,7 @@ void sendPedalPositionReading(float pedal){
     msgPedal.percent(pedal);
     od4.send(msgPedal);
     start = std::clock();
-}
+} 
 
 void sendGroundSteeringReading(float steering){
 
@@ -76,4 +83,16 @@ void sendGroundSteeringReading(float steering){
     opendlv::proxy::GroundSteeringReading msgSteering;
     msgSteering.steeringAngle(steering);
     od4.send(msgSteering);
+}
+
+void stopWhenObstacle(float distance){
+
+    cluon::OD4Session od4(111,
+        [](cluon::data::Envelope &&envelope) noexcept {});
+
+    std::cout << "Distance from obstacle is " << distance << " m." << std::endl;
+
+    opendlv::proxy::PedalPositionReading msgPedal;
+    msgPedal.percent(0.0);
+    od4.send(msgPedal);
 }
