@@ -4,6 +4,11 @@
  * Implementation of the V2VService class as declared in V2VService.hpp
  */
 V2VService::V2VService() {
+
+
+    proxy =
+        std::make_shared<cluon::OD4Session>(MOTOR_CID,
+          [this](cluon::data::Envelope &&envelope) noexcept {});
     /*
      * The broadcast field contains a reference to the broadcast channel which is an OD4Session. This is where
      * AnnouncePresence messages will be received.
@@ -96,10 +101,11 @@ V2VService::V2VService() {
 
                        /* TODO: implement follow logic */
 
-                       speed = leaderStatus.speed();
-                       steeringAngle = leaderStatus.steeringAngle();
-                       distanceTraveled = leaderStatus.distanceTraveled();
-
+                       leaderStatus.timestamp();
+                       pedal(leaderStatus.speed());
+                       steer(leaderStatus.steeringAngle());
+                       leaderStatus.distanceTraveled();
+                       std::cout << "test" << std::endl;
 
 
                        break;
@@ -260,4 +266,15 @@ T V2VService::decode(std::string data) {
     T tmp = T();
     tmp.accept(v);
     return tmp;
+}
+
+void V2VService::pedal(float pedalPosition){
+    opendlv::proxy::PedalPositionReading carPedal;
+    carPedal.percent(pedalPosition);
+    proxy->send(carPedal);
+}
+void V2VService::steer(float steeringAngle){
+    opendlv::proxy::GroundSteeringReading carSteering;
+    carSteering.steeringAngle(steeringAngle);
+    proxy->send(carSteering);
 }
