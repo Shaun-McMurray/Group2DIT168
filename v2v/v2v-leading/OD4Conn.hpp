@@ -7,7 +7,7 @@
 #include <iostream>
 //#include "V2VService.hpp"
 
-static const int CHANNEL = 30;
+static const int CHANNEL = 135;
 static const int PEDAL_POSITION = 9001;
 static const int STEERING_ANGLE = 9002;
 static const int DISTANCE_TRAVELED = 9003;

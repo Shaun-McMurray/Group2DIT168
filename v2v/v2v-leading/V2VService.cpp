@@ -50,7 +50,7 @@ V2VService::V2VService() {
                            followerIp = sender.substr(0, len);      // and establish a sending channel.
                            toFollower = std::make_shared<cluon::UDPSender>(followerIp, DEFAULT_PORT);
                            followResponse();
-                           leading = 1;
+                           leading = true;
                        }
                        break;
                    }
@@ -75,7 +75,7 @@ V2VService::V2VService() {
                            leaderIp = "";
                            toLeader.reset();
                        }
-                       leading = 0;
+                       leading = false;
                        break;
                    }
                    case FOLLOWER_STATUS: {
