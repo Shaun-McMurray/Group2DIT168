@@ -1,32 +1,47 @@
 
 var scatterChartData = {
       datasets: [{
-        label: 'My First dataset',
+        label: 'My Car',
         borderColor: '#86C0A5',
         backgroundColor: '#86C0A5',
         data: [{
-          x: 20,
-          y: 34,
+          x: 0,
+          y: 0,
         }, {
-          x: -20,
-          y: 46,
+          x: 2,
+          y: 9,
+        }, {
+          x: 4,
+          y: 14,
+        }, {
+          x: 7,
+          y: 15,
+        }, {
+          x: 10,
+          y: 12,
         }],
         bezierCurve: true,
         fill: false,
         showLine: true
       }, {
-        label: 'My Second dataset',
-        borderColor: '#86C0A5',
-        backgroundColor: '#86C0A5',
+        label: 'Leading Car',
+        borderColor: '#5A7DA4',
+        backgroundColor: '#5A7DA4',
         data: [{
-          x: 46,
-          y: 34,
+          x: 3,
+          y: 3,
         }, {
-          x: 10,
-          y: 10,
+          x: 5,
+          y: 12,
         }, {
-          x: -30,
-          y: -25,
+          x: 7,
+          y: 16,
+        }, {
+          x: 12,
+          y: 19,
+        }, {
+          x: 13,
+          y: 15,
         }],
         bezierCurve: true,
         fill: false,
@@ -42,18 +57,18 @@ let posChart = new Chart('positionChart', {
     scales: {
       xAxes: [{
         ticks: {
-          min: -50
+          min: -20
         }
       }],
       yAxes: [{
         ticks: {
-          min: -50
+          min: -20
         }
       }]
     },
     title: {
       display: true,
-      text: 'Chart.js Draw Line On Chart'
+      text: 'Car Positions'
     },
     tooltips: {
       mode: 'index',

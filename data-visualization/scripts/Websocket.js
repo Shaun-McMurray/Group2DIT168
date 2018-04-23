@@ -37,13 +37,16 @@ function speedClick(){
   document.getElementById("pedalPosition").innerHTML = testSpeed;
   document.getElementById("currentSpeed").innerHTML = testSpeed;
   $("#speedbox-score").css("transform","rotate("+testSpeed+"deg)");
-  let ip = '192.168.8.1';
-  let groupId = '2';
+  //let ip = "192.168.8.1";
+  //let groupId = "2";
   let objAnnounce = {
-    vehicleIp: ip,
-    groupId: groupId
+    vehicleIp: "192.168.8.1",
+    groupId: "2"
   };
+  console.log(objAnnounce);
   let jsonAnnounce = JSON.stringify(objAnnounce);
+  jsonAnnounce = '"' + jsonAnnounce + '"';
+  console.log(jsonAnnounce);
   sendMessage(lc, ws, jsonAnnounce, 1001);
 }
 
@@ -108,7 +111,6 @@ function onMessageReceived(lc, msg) {
   if (data_str.length == 2) {
     return;
   }
-  console.log(data_str);
 
   d = JSON.parse(data_str);
 
@@ -156,7 +158,7 @@ function onMessageReceived(lc, msg) {
     data.senderStamp = data.senderStamp + 2;
     updateRadar(data);
   }else if(data.dataType == 1001) {
-    $("#notification").fadeIn("slow").append('New follower request! Click to accept or dismiss thata way -->');
+    $("#notification").fadeIn("slow").append('New Car ' + data.payload.fields[0].value + ' ' + data.payload.fields[1].value);
     $(".dismiss").click(function(){
        $("#notification").fadeOut("slow");
     });
