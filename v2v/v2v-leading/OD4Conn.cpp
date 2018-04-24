@@ -9,12 +9,12 @@ OD4Conn::OD4Conn() {
               std::cout << envelope.dataType() << std::endl;
               switch(envelope.dataType()) {
                   case PEDAL_POSITION: {
-                      Pedal_position pp = cluon::extractMessage<Pedal_position>(std::move(envelope));
-                      OD4Conn::setPedalPosition(pp.speed());
+                      opendlv::proxy::PedalPositionReading pp = cluon::extractMessage<opendlv::proxy::PedalPositionReading>(std::move(envelope));
+                      OD4Conn::setPedalPosition(pp.percent());
                       }
                       break;
                   case STEERING_ANGLE:{
-                      Steering_angle sa = cluon::extractMessage<Steering_angle>(std::move(envelope));
+                      opendlv::proxy::GroundSteeringReading sa = cluon::extractMessage<opendlv::proxy::GroundSteeringReading>(std::move(envelope));
                       OD4Conn::setSteeringAngle(sa.steeringAngle());
                       }
                       break;

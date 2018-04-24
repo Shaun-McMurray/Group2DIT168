@@ -37,3 +37,11 @@ message Steering_angle [id = 9002] {
 message Distance_traveled [id = 9003] {
     uint8 distanceTraveled [id = 1];
 }
+
+message opendlv.proxy.GroundSteeringReading [id = 1045] {
+  float steeringAngle [id = 1];
+}
+
+message opendlv.proxy.PedalPositionReading [id = 1041] {
+  float percent [id = 1];
+}
