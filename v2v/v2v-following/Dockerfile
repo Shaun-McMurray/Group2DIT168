@@ -1,9 +1,6 @@
-FROM pipill/armhf-alpine:edge as builder
+FROM alpine:3.7 as builder
 MAINTAINER Group2 based on Christian Berger christian.berger@gu.se
-RUN [ "cross-build-start" ]
-RUN cat /etc/apk/repositories && \
-    echo http://dl-4.alpinelinux.org/alpine/v3.7/main > /etc/apk/repositories && \
-    echo http://dl-4.alpinelinux.org/alpine/v3.7/community >> /etc/apk/repositories
+
 RUN apk update && \
     apk --no-cache add \
         ca-certificates \
@@ -17,20 +14,14 @@ RUN cd /opt/sources && \
     mkdir build && \
     cd build && \
     cmake -D CMAKE_BUILD_TYPE=Release .. && \
-    make && cp V2V.Service /tmp
-RUN [ "cross-build-end" ]
+    make && cp V2V.Service /tmp 
 
 # Deploy.
-FROM pipill/armhf-alpine:edge
+FROM alpine:3.7
 MAINTAINER Group2 based on Christian Berger christian.berger@gu.se
-RUN [ "cross-build-start" ]
-RUN cat /etc/apk/repositories && \
-    echo http://dl-4.alpinelinux.org/alpine/v3.7/main > /etc/apk/repositories && \
-    echo http://dl-4.alpinelinux.org/alpine/v3.7/community >> /etc/apk/repositories
+
 RUN apk update && \
     apk add libcluon --no-cache --repository https://chrberger.github.io/libcluon/alpine/v3.7 --allow-untrusted && \
     mkdir /opt
 WORKDIR /opt
-COPY --from=builder /tmp/V2V.Service .
-RUN [ "cross-build-end" ]
-CMD ["/opt/V2V.Service"]
+COPY --from=builder /tmp/ .
