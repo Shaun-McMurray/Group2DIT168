@@ -8,9 +8,12 @@ int main(){
     std::cout << "starting" << std::endl;
      while(1){
         if(!v2vService->leading){
+            std::cout << "test9";
             v2vService->announcePresence();
             sleep(1);
+      
         }else {
+            std::cout << "test8" << std::endl;
             std::move(connection);
             v2vService->leaderStatus(connection->getPedalPosition(), connection->getSteeringAngle(), connection->getDistanceTraveled());
             usleep(125000);
