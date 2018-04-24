@@ -37,7 +37,7 @@ V2VService::V2VService() {
                std::move(ts);
                std::cout << "[UDP] ";
                std::pair<int16_t, std::string> msg = extract(data);
-
+               std::cout << msg.first << std::endl;
                switch (msg.first) {
                    case FOLLOW_REQUEST: {
                        FollowRequest followRequest = decode<FollowRequest>(msg.second);
@@ -50,7 +50,7 @@ V2VService::V2VService() {
                            followerIp = sender.substr(0, len);      // and establish a sending channel.
                            toFollower = std::make_shared<cluon::UDPSender>(followerIp, DEFAULT_PORT);
                            followResponse();
-                           leading = 1;
+                           leading = true;
                        }
                        break;
                    }
@@ -75,7 +75,7 @@ V2VService::V2VService() {
                            leaderIp = "";
                            toLeader.reset();
                        }
-                       leading = 0;
+                       leading = false;
                        break;
                    }
                    case FOLLOWER_STATUS: {
@@ -213,7 +213,7 @@ std::pair<int16_t, std::string> V2VService::extract(std::string data) {
     ssId >> std::hex >> id;
     ssLen >> std::hex >> len;
     return std::pair<int16_t, std::string> (
-            data.length() -10 ==(unsigned) (len ? id : -1),
+            data.length() -10 == len ? id : -1,
             data.substr(10, data.length() -10)
     );
 };
