@@ -105,7 +105,6 @@ V2VService::V2VService() {
                        pedal(leaderStatus.speed());
                        steer(leaderStatus.steeringAngle());
                        leaderStatus.distanceTraveled();
-                       std::cout << "test" << std::endl;
 
 
                        break;

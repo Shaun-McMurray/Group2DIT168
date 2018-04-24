@@ -11,6 +11,8 @@ int main(){
 
 
             }
+        }else {
+            v2vService->followerStatus();
         }
         usleep(125000);
     }
