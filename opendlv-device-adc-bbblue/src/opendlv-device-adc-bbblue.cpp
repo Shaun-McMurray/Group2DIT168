@@ -148,7 +148,7 @@ int32_t main(int32_t argc, char **argv) {
         if (VERBOSE) {
           std::cout << "Voltage reading is " << voltageReading.voltage() << " V." << std::endl;
 
-          double distance = 5 * std::pow(voltageReading.voltage(), -0.4);
+          double distance = 5 * std::pow(voltageReading.voltage(), -1.45);
           std::cout << "Distance calculated from voltage reading is " << distance << " cm." << std::endl;
         }
         return true;
