@@ -1,0 +1,14 @@
+FROM arm32v7/debian:jessie-slim 
+
+RUN apt-get update && apt-get install -y\
+        cmake \
+        wget \
+        xz-utils \
+		make
+#download StrawsonDesign Robotics Cape Library v. 0.3.4
+RUN wget https://github.com/StrawsonDesign/Robotics_Cape_Installer/releases/download/v0.4.1/roboticscape_0.4.1_armhf.deb
+
+RUN DEBIAN_FRONTEND=noninteractive dpkg -i roboticscape_0.4.1_armhf.deb
+
+RUN rc_version
+ 
