@@ -16,10 +16,11 @@ env:
     - DOCKERFILE=Dockerfile.arm
 
 install: true
+#- docker build -f $DOCKERFILE -t test .
 
 script:
 #- travis_wait docker ps -a
-- docker build -f $DOCKERFILE -t test .
+- travis_wait 30 docker build -f $DOCKERFILE -t test .
 
 after_success:
   - docker login -u $DOCKERUSERNAME -p $DOCKERPASSWORD
