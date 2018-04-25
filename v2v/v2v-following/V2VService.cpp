@@ -5,7 +5,6 @@
  */
 V2VService::V2VService() {
 
-
     proxy =
         std::make_shared<cluon::OD4Session>(MOTOR_CID,
           [this](cluon::data::Envelope &&envelope) noexcept {});
@@ -102,10 +101,13 @@ V2VService::V2VService() {
                        /* TODO: implement follow logic */
 
                        leaderStatus.timestamp();
-                       pedal(leaderStatus.speed());
-                       std::cout  << "speed: " << leaderStatus.speed() << std::endl;
-                       steer(leaderStatus.steeringAngle());
-                       std::cout << "steering angle: " << leaderStatus.steeringAngle();
+                       speed = leaderStatus.speed();
+                       pedal(speed);
+                       std::cout  << "speed: " << speed << std::endl;
+                       steeringQueue.push(leaderStatus.steeringAngle());
+                       //steer(leaderStatus.steeringAngle());
+                       std::cout << "steering angle V2VService: " << leaderStatus.steeringAngle();
+                       std::cout << "steering angle queue: " << steeringQueue.front() << std::endl;
                        leaderStatus.distanceTraveled();
 
 

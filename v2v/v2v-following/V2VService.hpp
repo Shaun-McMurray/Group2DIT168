@@ -10,6 +10,7 @@
 #include "cluon/Envelope.hpp"
 #include "Messages.hpp"
 #include <iostream>
+#include <queue>
 
 /** ADD YOUR CAR_IP AND GROUP_ID HERE:  *****************/
 
@@ -50,6 +51,7 @@ public:
     uint8_t distanceTraveled;
     void pedal(float pedalPosition);
     void steer(float steeringAngle);
+    std::queue<float> steeringQueue;
 
 private:
     std::string leaderIp;
