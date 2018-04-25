@@ -20,9 +20,9 @@ V2VService::V2VService() {
               switch (envelope.dataType()) {
                   case ANNOUNCE_PRESENCE: {
                       AnnouncePresence ap = cluon::extractMessage<AnnouncePresence>(std::move(envelope));
-                      std::cout << "received 'AnnouncePresence' from '"
-                                << ap.vehicleIp() << "', GroupID '"
-                                << ap.groupId() << "'!" << std::endl;
+                      //std::cout << "received 'AnnouncePresence' from '"
+                       //         << ap.vehicleIp() << "', GroupID '"
+                         //       << ap.groupId() << "'!" << std::endl;
                       if(ap.groupId() == "1"){
                           following = true;
                       }
@@ -103,7 +103,9 @@ V2VService::V2VService() {
 
                        leaderStatus.timestamp();
                        pedal(leaderStatus.speed());
+                       std::cout  << "speed: " << leaderStatus.speed() << std::endl;
                        steer(leaderStatus.steeringAngle());
+                       std::cout << "steering angle: " << leaderStatus.steeringAngle();
                        leaderStatus.distanceTraveled();
 
 
