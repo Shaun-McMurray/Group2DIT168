@@ -19,7 +19,7 @@ install:
 - docker build -f $DOCKERFILE -t test .
 
 script:
-- docker ps -a
+- travis_wait docker ps -a
 
 after_success:
   - docker login -u $DOCKERUSERNAME -p $DOCKERPASSWORD
