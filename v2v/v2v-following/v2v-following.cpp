@@ -4,10 +4,12 @@
 
 int main(){
     std::shared_ptr<V2VService> v2vService = std::make_shared<V2VService>();
+    std::string groupId;
+    std::cin >> groupId;
     while(1){
         if(!v2vService->connected){
             if(v2vService->following){
-                v2vService->followRequest(v2vService->presentCars["1"]);
+                v2vService->followRequest(v2vService->presentCars[groupId]);
 
 
             }
