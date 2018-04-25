@@ -253,3 +253,7 @@ T V2VService::decode(std::string data) {
     tmp.accept(v);
     return tmp;
 }
+
+void V2VService::setIp(std::string ip){
+    YOUR_CAR_IP = ip;
+}

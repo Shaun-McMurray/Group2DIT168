@@ -16,9 +16,9 @@ int main(int argc, char **argv){
     }
     else
     {
-        YOUR_CAR_IP = commandlineArguments["ip"];
+        v2vService->setIp(commandlineArguments["ip"]);
     }
-
+    
     std::shared_ptr<OD4Conn> connection = std::make_shared<OD4Conn>();
     while(1){
         if(!v2vService->leading){

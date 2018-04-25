@@ -34,9 +34,10 @@ class V2VService {
 public:
     std::map <std::string, std::string> presentCars;
 
+    void setIp(std::string ip);
+
     V2VService();
     bool leading = false;
-
     void announcePresence();
     void followRequest(std::string vehicleIp);
     void followResponse();
