@@ -103,12 +103,13 @@ V2VService::V2VService() {
                        leaderStatus.timestamp();
                        speed = leaderStatus.speed();
                        pedal(speed);
-                       std::cout  << "speed: " << speed << std::endl;
-                       steeringQueue.push(leaderStatus.steeringAngle());
-                       //steer(leaderStatus.steeringAngle());
-                       std::cout << "steering angle V2VService: " << leaderStatus.steeringAngle();
-                       std::cout << "steering angle queue: " << steeringQueue.front() << std::endl;
-                       leaderStatus.distanceTraveled();
+                       if(speed != 0){
+                           std::cout  << "speed: " << speed << std::endl;
+                           steeringQueue.push(leaderStatus.steeringAngle());
+                           std::cout << "steering angle V2VService: " << leaderStatus.steeringAngle();
+                           std::cout << "steering angle queue: " << steeringQueue.front() << std::endl;
+                           leaderStatus.distanceTraveled();
+                       }
 
 
                        break;
