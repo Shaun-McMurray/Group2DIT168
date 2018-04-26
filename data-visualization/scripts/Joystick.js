@@ -1,6 +1,9 @@
 
 let date = new Date();
 let lastControllerMessage;
+let pedal = 0;
+let steering = 0;
+var messageTest = setInterval(sendControls, 100);
 
 var s = function (sel) { return document.querySelector(sel); };
 var sId = function (sel) { return document.getElementById(sel); };
@@ -57,22 +60,46 @@ createNipple('dynamic');
 
 function bindNipple () {
     joystick.on('start end', function (evt, data) {
-        let jsonPedal = "{\"pedal\":" + 0 + "}";
-        sendMessage(lc, ws, jsonPedal, 1112);
+        //let jsonPedal = "{\"pedal\":" + 0 + "}";
+        //sendMessage(lc, ws, jsonPedal, 1112);
 
-        let jsonSteering = "{\"steering\":" + 0 + "}";
-        sendMessage(lc, ws, jsonSteering, 1113);
-        dump(evt.type);
-        debug(data);
+        //let jsonSteering = "{\"steering\":" + 0 + "}";
+        //sendMessage(lc, ws, jsonSteering, 1113);
+        //dump(evt.type);
+        //debug(data);
+        pedal = 0.0;
+        steering = 0.0;
     }).on('move', function (evt, data) {
         calculateControl(data);
-        debug(data);
-    }).on('dir:up plain:up dir:left plain:left dir:down ' +
-        'plain:down dir:right plain:right',
+    }).on('dir:up',
         function (evt, data) {
-            dump(evt.type);
-        }
-    ).on('pressure', function (evt, data) {
+            pedal = 0.16;
+    }).on('plain:up',
+        function (evt, data) {
+            pedal = 0.16;
+            steering = 0;
+    }).on('dir:left',
+        function (evt, data) {
+            steering = 30;
+    }).on('plain:left',
+        function (evt, data) {
+            steering = 30;
+            pedal = 0;
+    }).on('dir:down',
+        function (evt, data) {
+            pedal = -0.16;
+    }).on('plain:down',
+        function (evt, data) {
+            pedal = -0.16;
+            steering = 0;
+    }).on('dir:right',
+        function (evt, data) {
+            steering = -30;
+    }).on('plain:right',
+        function (evt, data) {
+            steering = -30;
+            pedal = 0;
+    }).on('pressure', function (evt, data) {
         debug({pressure: data});
     });
 }
@@ -153,4 +180,12 @@ function calculateControl(data) {
 
   date = new Date;
   lastControllerMessage = date.getTime();
+}
+
+function sendControls() {
+    let jsonPedal = "{\"percent\":" + pedal + "}";
+    sendMessage(lc, ws, jsonPedal, 1041);
+    let jsonSteering = "{\"steeringAngle\":" + steering + "}";
+    sendMessage(lc, ws, jsonSteering, 1045);
+    console.log(jsonPedal, jsonSteering);
 }
