@@ -204,10 +204,19 @@ void V2VService::leaderStatus(float speed, float steeringAngle, uint8_t distance
  *
  * @return current time in milliseconds
  */
-uint32_t V2VService::getTime() {
+/*uint32_t V2VService::getTime() {
     timeval now;
     gettimeofday(&now, nullptr);
     return (uint32_t ) now.tv_usec / 1000;
+}*/
+
+uint64_t V2VService::getTime() {
+    using namespace std::chrono;
+    
+    milliseconds ms = duration_cast<milliseconds>(
+        system_clock::now().time_since_epoch()
+    );
+    return (uint64_t) ms.count();
 }
 
 /**
