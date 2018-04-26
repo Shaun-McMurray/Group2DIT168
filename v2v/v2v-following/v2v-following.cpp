@@ -16,14 +16,8 @@ int main(){
             }
         }else {
             v2vService->followerStatus();
-            if(start || v2vService->steeringQueue.size() >= 10 && v2vService->speed != 0){
-                start = true;
-                std::cout << "start = " << start << std::endl; 
-                v2vService->steer(v2vService->steeringQueue.front());
-                std::cout << "steering angle: " << v2vService->steeringQueue.front() << std::endl;
-                v2vService->steeringQueue.pop();
-            }
         }
         usleep(125000);
     }
 }
+

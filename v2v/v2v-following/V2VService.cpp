@@ -264,13 +264,10 @@ T V2VService::decode(std::string data) {
     return tmp;
 }
 
-void V2VService::steeringController(LeaderStatus LeaderStatus){
+void V2VService::steeringController(LeaderStatus leaderStatus){
     leaderStatus.timestamp();
     speed = leaderStatus.speed();
-    if(speed != 0 && steeringQueue.size() < 10){
-        steeringQueue.push(leaderStatus.steeringAngle());
-        pedal(speed);
-    }else if(speed != 0 && steeringQueue.size() >= 10){
+    if(speed != 0 && steeringQueue.size() >= 10){
        std::cout  << "speed: " << speed << std::endl;
        steeringQueue.push(leaderStatus.steeringAngle());
        std::cout << "steering angle V2VService: " << leaderStatus.steeringAngle();
@@ -278,9 +275,13 @@ void V2VService::steeringController(LeaderStatus LeaderStatus){
        pedal(speed);
        steer(steeringQueue.front());
        steeringQueue.pop();
+    }else if(speed != 0){
+        std::cout << "adding to queue" << std::endl;
+        steeringQueue.push(leaderStatus.steeringAngle());
+        pedal(speed);
     }else {
         pedal(speed);
-        steering(0);
+        steer(0);
     }
 }
 
