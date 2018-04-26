@@ -51,6 +51,7 @@ public:
     uint8_t distanceTraveled;
     void pedal(float pedalPosition);
     void steer(float steeringAngle);
+    void V2VService::steeringController(LeaderStatus LeaderStatus);
     std::queue<float> steeringQueue;
 
 private:

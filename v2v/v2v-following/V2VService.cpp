@@ -101,15 +101,7 @@ V2VService::V2VService() {
                        /* TODO: implement follow logic */
 
                        leaderStatus.timestamp();
-                       speed = leaderStatus.speed();
-                       pedal(speed);
-                       if(speed != 0){
-                           std::cout  << "speed: " << speed << std::endl;
-                           steeringQueue.push(leaderStatus.steeringAngle());
-                           std::cout << "steering angle V2VService: " << leaderStatus.steeringAngle();
-                           std::cout << "steering angle queue: " << steeringQueue.front() << std::endl;
-                           leaderStatus.distanceTraveled();
-                       }
+                       steeringController(leaderStatus);
 
 
                        break;
@@ -271,6 +263,27 @@ T V2VService::decode(std::string data) {
     tmp.accept(v);
     return tmp;
 }
+
+void V2VService::steeringController(LeaderStatus LeaderStatus){
+    leaderStatus.timestamp();
+    speed = leaderStatus.speed();
+    if(speed != 0 && steeringQueue.size() < 10){
+        steeringQueue.push(leaderStatus.steeringAngle());
+        pedal(speed);
+    }else if(speed != 0 && steeringQueue.size() >= 10){
+       std::cout  << "speed: " << speed << std::endl;
+       steeringQueue.push(leaderStatus.steeringAngle());
+       std::cout << "steering angle V2VService: " << leaderStatus.steeringAngle();
+       std::cout << "steering angle queue: " << steeringQueue.front() << std::endl;
+       pedal(speed);
+       steer(steeringQueue.front());
+       steeringQueue.pop();
+    }else {
+        pedal(speed);
+        steering(0);
+    }
+}
+
 
 void V2VService::pedal(float pedalPosition){
     opendlv::proxy::PedalPositionReading carPedal;
