@@ -22,9 +22,9 @@ V2VService::V2VService() {
                       //std::cout << "received 'AnnouncePresence' from '"
                        //         << ap.vehicleIp() << "', GroupID '"
                          //       << ap.groupId() << "'!" << std::endl;
-                      if(ap.groupId() == "1"){
-                          following = true;
-                      }
+                      
+                      following = true;
+                      
 
                       presentCars[ap.groupId()] = ap.vehicleIp();
 
@@ -95,12 +95,13 @@ V2VService::V2VService() {
                    }
                    case LEADER_STATUS: {
                        LeaderStatus leaderStatus = decode<LeaderStatus>(msg.second);
-                       std::cout << "received '" << leaderStatus.LongName()
-                                 << "' from '" << sender << "'!" << std::endl;
+                       //std::cout << "received '" << leaderStatus.LongName()
+                       //          << "' from '" << sender << "'!" << std::endl;
 
                        /* TODO: implement follow logic */
 
                        leaderStatus.timestamp();
+                       std::cout << "steeringController() called" << std::endl;
                        steeringController(leaderStatus);
 
 
@@ -265,24 +266,28 @@ T V2VService::decode(std::string data) {
 }
 
 void V2VService::steeringController(LeaderStatus leaderStatus){
+    std::cout << "queue size before: " << steeringQueue.size() << std::endl;
     leaderStatus.timestamp();
     speed = leaderStatus.speed();
-    if(speed != 0 && steeringQueue.size() >= 10){
-       std::cout  << "speed: " << speed << std::endl;
+    bool temp = speed != 0 && steeringQueue.size() >= delay;
+    std::cout << "speed != 0 && steeringQueue.size() >= " << delay << " is " << temp  << std::endl;
+    if(speed != 0 && steeringQueue.size() >= delay){
        steeringQueue.push(leaderStatus.steeringAngle());
-       std::cout << "steering angle V2VService: " << leaderStatus.steeringAngle();
-       std::cout << "steering angle queue: " << steeringQueue.front() << std::endl;
        pedal(speed);
+       std::cout << "first in queue: " << steeringQueue.front() << std::endl;
        steer(steeringQueue.front());
        steeringQueue.pop();
     }else if(speed != 0){
-        std::cout << "adding to queue" << std::endl;
-        steeringQueue.push(leaderStatus.steeringAngle());
+        std::cout << "adding to queue steer 0 to queue" << std::endl;
+        steeringQueue.push(0);
+        std::cout << "this was added to the queue" << steeringQueue.front() << std::endl;
         pedal(speed);
     }else {
+        std::cout << "steeringController() else statement" << std::endl;
         pedal(speed);
         steer(0);
     }
+    std::cout << "queuesize after: " << steeringQueue.size() << std::endl;
 }
 
 

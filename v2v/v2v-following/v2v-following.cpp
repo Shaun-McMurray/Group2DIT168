@@ -4,7 +4,11 @@
 
 int main(){
     std::shared_ptr<V2VService> v2vService = std::make_shared<V2VService>();
+    std::cout << "input the number of messages to delay" << std::endl;
+    std::cin >> v2vService->delay;
+   
     std::string groupId;
+    std::cout << "group id to follow" << std::endl;
     std::cin >> groupId;
     bool start = false;
     while(1){

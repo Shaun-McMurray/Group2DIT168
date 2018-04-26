@@ -53,7 +53,7 @@ public:
     void steer(float steeringAngle);
     void steeringController(LeaderStatus LeaderStatus);
     std::queue<float> steeringQueue;
-
+    int delay;
 private:
     std::string leaderIp;
     std::string followerIp;
