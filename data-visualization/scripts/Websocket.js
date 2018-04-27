@@ -10,6 +10,7 @@ var g_pause = false;
 
 let lc;
 let ws;
+let connect = false;
 
 $(document).ready(function(){
   
@@ -47,7 +48,7 @@ function speedClick(){
   let jsonAnnounce = JSON.stringify(objAnnounce);
   jsonAnnounce = '"' + jsonAnnounce + '"';
   console.log(jsonAnnounce);
-  sendMessage(lc, ws, jsonAnnounce, 1001);
+  sendMessage(ws, jsonAnnounce, 1001);
 }
 
 
@@ -60,6 +61,8 @@ function setupViewer() {
 
     ws.onopen = function() {
       onStreamOpen(lc);
+      connect = true;
+
       $("#speedbox-score").css("transform","rotate("+50+"deg)");
     }
 
@@ -69,6 +72,7 @@ function setupViewer() {
 
     ws.onclose = function() {
       onStreamClosed();
+      connect = false;
     };
 
   } else {
@@ -426,8 +430,10 @@ function updateFieldCharts(sourceKey, dataList) {
   }
 }
 
-function sendMessage(lc, ws, jsonMessageToBeSent, messageID) {
-   
+function sendMessage(ws, jsonMessageToBeSent, messageID) {
+  if (!"WebSocket" in window || !connect){
+    return;
+  }
   let protoEncodedPayload = lc.encodeEnvelopeFromJSONWithoutTimeStamps(jsonMessageToBeSent, messageID, 0);  
 
   strToAB = str =>

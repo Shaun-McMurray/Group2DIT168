@@ -1,8 +1,8 @@
 
 let date = new Date();
 let lastControllerMessage;
-let pedal = 0;
-let steering = 0;
+let pedal;
+let steering;
 var messageTest = setInterval(sendControls, 100);
 
 var s = function (sel) { return document.querySelector(sel); };
@@ -70,35 +70,37 @@ function bindNipple () {
         pedal = 0.0;
         steering = 0.0;
     }).on('move', function (evt, data) {
-        calculateControl(data);
     }).on('dir:up',
         function (evt, data) {
             pedal = 0.16;
+            steering = 0;
     }).on('plain:up',
         function (evt, data) {
             pedal = 0.16;
             steering = 0;
     }).on('dir:left',
         function (evt, data) {
-            steering = 30;
+            pedal = 0.16;
+            steering = 0.75;
     }).on('plain:left',
         function (evt, data) {
-            steering = 30;
-            pedal = 0;
+            pedal = 0.16;
+            steering = 0.0;
     }).on('dir:down',
         function (evt, data) {
-            pedal = -0.16;
+            pedal = -0.1;
     }).on('plain:down',
         function (evt, data) {
-            pedal = -0.16;
+            pedal = -0.1;
             steering = 0;
     }).on('dir:right',
         function (evt, data) {
-            steering = -30;
+            pedal = 0.16;
+            steering = -0.75;
     }).on('plain:right',
         function (evt, data) {
-            steering = -30;
-            pedal = 0;
+            steering = 0;
+            pedal = 0.16;
     }).on('pressure', function (evt, data) {
         debug({pressure: data});
     });
@@ -176,7 +178,7 @@ function calculateControl(data) {
   sendMessage(lc, ws, jsonPedal, 1112);
 
   let jsonSteering = "{\"steering\":" + steeringAngle + "}";
-  sendMessage(lc, ws, jsonSteering, 1113);
+  sendMessage(ws, jsonSteering, 1113);
 
   date = new Date;
   lastControllerMessage = date.getTime();
@@ -184,8 +186,7 @@ function calculateControl(data) {
 
 function sendControls() {
     let jsonPedal = "{\"percent\":" + pedal + "}";
-    sendMessage(lc, ws, jsonPedal, 1041);
+    sendMessage(ws, jsonPedal, 1041);
     let jsonSteering = "{\"steeringAngle\":" + steering + "}";
-    sendMessage(lc, ws, jsonSteering, 1045);
-    console.log(jsonPedal, jsonSteering);
+    sendMessage(ws, jsonSteering, 1045);
 }
