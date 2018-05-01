@@ -1,6 +1,9 @@
 #include <chrono>
 #include <iostream>
 //#include <thread>
+#include "cluon/OD4Session.hpp"
+#include "cluon/Envelope.hpp"
+#include "messages.hpp"
 
 //including libraries written in C
 extern "C"
