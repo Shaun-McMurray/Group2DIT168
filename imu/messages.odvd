@@ -1,3 +1,10 @@
-message imuReading[id = 2000]{
-	float steeringAngle[id = 1];
+message accelerometerValues[id = 2000]{
+	float accel-data0[id = 1];
+	float accel-data1[id = 2];
+	float accel-data2[id = 3];
+}
+message gyroscopeValues[id = 2001]{
+	float gyro-data0[id = 1];
+	float gyro-data1[id = 2];
+	float gyro-data2[id = 3];
 }

@@ -1,10 +1,10 @@
 #include <chrono>
 #include <iostream>
 //#include <thread>
-#include "cluon/OD4Session.hpp"
-#include "cluon/Envelope.hpp"
+//#include "cluon/OD4Session.hpp"
+//#include "cluon/Envelope.hpp"
 #include "messages.hpp"
-
+#include "cluon-complete.hpp"
 //including libraries written in C
 extern "C"
 {
@@ -62,7 +62,9 @@ int main(){
         	std::cout << "rc_initialize_imu_failed"<< std::endl;
         	return -1;
     	}
-//	while(1){
+    //create od4 session 
+    cluon::OD4Session od4{130};
+	while(od4.isRunning()){
 		// read accelerometer sensor data
 		if(rc_read_accel_data(&data)<0)
 			std::cout << "read accel data failed"<< std::endl;
@@ -70,6 +72,13 @@ int main(){
 		//print the values directly
 		std::cout << "Accelerometer values"<< std::endl;
 		printf("%6.2f %6.2f %6.2f\n",data.accel[0],data.accel[1],data.accel[2]);
+		accelerometerValues accelValues;
+		accelValues.accel-data0(data.accel[0]);
+		accelValues.accel-data1(data.accel[1]);
+		accelValues.accel-data2(data.accel[2]);
+
+		//send the values through od4
+		od4.send(accelValues);
 
 		//store values in variables for easier future filtering
 		float accel_x = data.accel[0];
@@ -100,6 +109,13 @@ int main(){
 		printf("%6.1f %6.1f %6.1f\n",data.gyro[0],\
 									 data.gyro[1],\
 									 data.gyro[2]);
+
+		//send gyro values through od4 session
+		gyroscopeValues gyroValues;
+		gyroValues.gyro-data0(data.gyro[0]);
+		gyroValues.gyro-data1(data.gyro[1]);
+		gyroValues.gyro-data2(data.gyro[2]);
+		od4.send(gyroValues);
 //	}
 	
 	//rc_read_gyro_data(imu_data_t* data);
