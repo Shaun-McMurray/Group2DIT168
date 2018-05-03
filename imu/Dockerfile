@@ -22,9 +22,6 @@ RUN apt-get update -q && \
 	sudo make install && \
 	export PATH=/usr/local/bin:$PATH && \
 	cd ~/ && \
-	wget https://launchpad.net/~chrberger/+archive/ubuntu/libcluon/+files/libcluon_0.0.80-1ppa1~xenial1_armhf.deb && \
-	dpkg -i libcluon_0.0.80-1ppa1~xenial1_armhf.deb && \
-	sudo apt-get install ./libcluon_0.0.80-1ppa1~xenial1_armhf.deb && \
 	wget https://github.com/StrawsonDesign/Robotics_Cape_Installer/releases/download/v0.3.4/roboticscape_0.3.4_armhf.deb && \
 	DEBIAN_FRONTEND=noninteractive dpkg -i roboticscape_0.3.4_armhf.deb 
 	
