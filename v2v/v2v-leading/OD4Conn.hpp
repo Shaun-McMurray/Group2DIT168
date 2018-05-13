@@ -3,9 +3,8 @@
 
 #include "Messages.hpp"
 #include "cluon/OD4Session.hpp"
-#include "cluon/Envelope.hpp"	
+#include "cluon/Envelope.hpp"
 #include <iostream>
-//#include "V2VService.hpp"
 
 static const int CHANNEL = 130;
 static const int PEDAL_POSITION = 1041;
@@ -29,9 +28,6 @@ private:
     float steeringAngle = 0;
     uint8_t distanceTraveled = 0;
     std::shared_ptr<cluon::OD4Session>  broadcast;
-
-
-
 };
 
 
