@@ -1,0 +1,10 @@
+message accelerometerValues [id = 2000]{
+    float acceldata0 [id = 1];
+    float acceldata1 [id = 2];
+    float acceldata2 [id = 3];
+}
+message gyroscopeValues [id = 2001]{
+    float gyrodata0 [id = 1];
+    float gyrodata1 [id = 2];
+    float gyrodata2 [id = 3];
+}
