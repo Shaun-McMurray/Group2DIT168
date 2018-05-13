@@ -204,19 +204,10 @@ void V2VService::leaderStatus(float speed, float steeringAngle, uint8_t distance
  *
  * @return current time in milliseconds
  */
-/*uint32_t V2VService::getTime() {
+uint32_t V2VService::getTime() {
     timeval now;
     gettimeofday(&now, nullptr);
     return (uint32_t ) now.tv_usec / 1000;
-}*/
-
-uint64_t V2VService::getTime() {
-    using namespace std::chrono;
-    
-    milliseconds ms = duration_cast<milliseconds>(
-        system_clock::now().time_since_epoch()
-    );
-    return (uint64_t) ms.count();
 }
 
 /**
@@ -274,37 +265,45 @@ T V2VService::decode(std::string data) {
     return tmp;
 }
 
+/*
+  Function used to handle the logic of saving necessary information from the received leaderstatus messages
+
+*/
+
 void V2VService::steeringController(LeaderStatus leaderStatus){
-    std::cout << "queue size before: " << steeringQueue.size() << std::endl;
-    leaderStatus.timestamp();
+    //Extracts the speed and saves it 
     speed = leaderStatus.speed();
-    bool temp = speed != 0 && steeringQueue.size() >= delay;
-    std::cout << "speed != 0 && steeringQueue.size() >= " << delay << " is " << temp  << std::endl;
+    //Decides if the steering angle should be saved or ignored
     if(speed != 0 && steeringQueue.size() >= delay){
        steeringQueue.push(leaderStatus.steeringAngle());
        pedal(speed);
-       std::cout << "first in queue: " << steeringQueue.front() << std::endl;
        steer(steeringQueue.front());
        steeringQueue.pop();
+    //If the speed is 0 then ignore everything else and set the speed to 0
     }else if(speed != 0){
-        std::cout << "adding to queue steer 0 to queue" << std::endl;
         steeringQueue.push(0);
-        std::cout << "this was added to the queue" << steeringQueue.front() << std::endl;
         pedal(speed);
+    //In case the speed is not 0 but the steering angle should be ignored
     }else {
-        std::cout << "steeringController() else statement" << std::endl;
         pedal(speed);
         steer(0);
     }
-    std::cout << "queuesize after: " << steeringQueue.size() << std::endl;
 }
 
+/*
+ Function for sending the pedal position to the car proxy
 
+*/
 void V2VService::pedal(float pedalPosition){
     opendlv::proxy::PedalPositionReading carPedal;
     carPedal.percent(pedalPosition);
     proxy->send(carPedal);
 }
+
+/*
+ Function for sending the steering angle to the car proxy
+
+*/
 void V2VService::steer(float steeringAngle){
     opendlv::proxy::GroundSteeringReading carSteering;
     carSteering.steeringAngle(steeringAngle);
