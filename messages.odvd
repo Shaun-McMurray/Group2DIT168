@@ -17,3 +17,38 @@ message CarControllerPedal [id = 1002] {
 message CarControllerSteering [id = 1003] {
 	float steering [id = 1];
 }
+
+
+message opendlv.proxy.AccelerationReading [id = 1030] {
+  float accelerationX [id = 1];
+  float accelerationY [id = 2];
+  float accelerationZ [id = 3];
+}
+
+message opendlv.proxy.AngularVelocityReading [id = 1031] {
+  float angularVelocityX [id = 1];
+  float angularVelocityY [id = 2];
+  float angularVelocityZ [id = 3];
+}
+
+message opendlv.proxy.MagneticFieldReading [id = 1032] {
+  float magneticFieldX [id = 1];
+  float magneticFieldY [id = 2];
+  float magneticFieldZ [id = 3];
+}
+
+message opendlv.proxy.AltitudeReading [id = 1033] {
+  float altitude [id = 1];
+}
+
+message opendlv.proxy.PressureReading [id = 1034] {
+  float pressure [id = 1];
+}
+
+message opendlv.proxy.TemperatureReading [id = 1035] {
+  float temperature [id = 1];
+}
+
+message opendlv.proxy.TorqueReading [id = 1036] {
+  float torque [id = 1];
+}

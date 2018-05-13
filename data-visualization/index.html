@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="The default libcluon data viewer">
+    <meta name="author" content="Group 2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="libs/css/web-fonts-with-css/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="libs/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="libs/css/nip.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <div class="pos-f-t">
+      <div class="collapse" id="navbarToggleExternalContent">
+        <div class="bg-dark p-4">
+          <h4 class="text-white">libcluon signal viewer</h4>
+          <button id="pause" type="button" class="btn btn-primary">Pause</button>
+        </div>
+      </div>
+      <nav class="navbar navbar-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav>
+    </div>
+    <table id="dataView" class="table">
+      <tr>
+        <th class="signal-type">Type</th>
+        <th class="signal-sender">Sender</th>
+        <th class="signal-name">Name</th>
+        <th class="signal-frequency">Frequency</th>
+        <th class="signal-timestamp">Timestamp</th>
+      </tr>
+    </table>
+    <div id="notification" style="display: none;">
+      <span class="dismiss"><a title="dismiss this notification">x</a></span>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="row">
+            <div class="content">
+              <div class="wrapper" style="max-width: 420px; margin: auto">
+                <canvas id="radar"></canvas>
+              </div>
+              <div id="chart-analyser" class="analyser"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="speedbox" onclick="speedClick()">
+              <div class="speedbox__score" id="speedbox-score"></div>
+              <div class="speedbox__groove"></div>
+              <div class="speedbox__odo">
+                <div class="speedbox__up"><i class="fa fa-arrows-v"></i><var id="pedalPosition">0</var><span>%</span></div>
+                <div class="speedbox__down"><i class="fa fa-dashboard"> </i> <var id="currentSpeed">0</var><span>m/s</span></div>
+              </div>
+              <div class="speedbox__gauge speedbox__gauge--0">0</div>
+              <div class="speedbox__gauge speedbox__gauge--50">50</div>
+              <div class="speedbox__gauge speedbox__gauge--100">100</div>
+              <div class="speedbox__base"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="content">
+              <div class="wrapper" style="max-width: 420px; margin: auto">
+                <canvas id="positionChart"></canvas>
+              </div>
+              <div id="chart-analyser" class="analyser"></div>
+            </div>
+          </div>
+          <!--<div class="row">
+            <div id="imu">
+            </div>
+          </div>-->
+        </div>
+        <div class="col">
+          <div class="dynamic active highlight highlight-javascript">
+            <div id="buttons" style="display: none;">
+              <div data-type="dynamic" class="active button dynamic"></div>
+            </div>
+            <div id="zone_joystick" class="zone dynamic active">
+              <div id="debug">
+                  <ul>
+                     <li class="position">
+                        position :
+                        <ul>
+                           <li class="x">x : <span class='data'></span></li>
+                           <li class="y">y : <span class='data'></span></li>
+                        </ul>
+                     </li>
+                     <li class="force">force : <span class='data'></span></li>
+                     <li class="pressure">pressure : <span class='data'></span></li>
+                     <li class="distance">distance : <span class='data'></span></li>
+                     <li class="angle">
+                        angle :
+                        <ul>
+                           <li class="radian">radian : <span class='data'></span></li>
+                           <li class="degree">degree : <span class='data'></span></li>
+                        </ul>
+                     </li>
+                     <li class="direction">
+                        direction :
+                        <ul>
+                           <li class="x">x : <span class='data'></span></li>
+                           <li class="y">y : <span class='data'></span></li>
+                           <li class="angle">angle : <span class='data'></span></li>
+                        </ul>
+                     </li>
+                  </ul>
+                  <div class="dump"></div>
+               </div>
+               <div class="zone dynamic active"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   <!-- <script src="libs/js/three.js"></script>
+    <script src="libs/js/OrbitControls.js"></script>-->
+    <script type="text/javascript" src="libs/js/jquery-3.2.1.slim.min.js"></script>
+    <script type="text/javascript" src="libs/js/nipplejs.min.js"></script>
+    <script type="text/javascript" src="libs/js/popper.min.js"></script>
+    <script type="text/javascript" src="libs/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="libs/js/bootstrap.js"></script>
+    <script type="text/javascript" src="libs/js/Chart.js"></script>
+    <script type="text/javascript" src="libs/js/libcluon.js"></script>
+    <script type="text/javascript" src="scripts/Websocket.js"></script>
+  <!--  <script type="text/javascript" src="scripts/IMU.js"></script> -->
+    <script type="text/javascript" src="scripts/PositionChart.js"></script>
+    <script type="text/javascript" src="scripts/Joystick.js"></script>
+    <script type="text/javascript" src="scripts/Radar.js"></script>
+  </body>
+</html>
+
