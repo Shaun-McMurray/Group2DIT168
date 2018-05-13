@@ -1,0 +1,47 @@
+message AnnouncePresence [id = 1001] {
+  string vehicleIp [id = 1];
+  string groupId [id = 3];
+}
+
+message FollowRequest [id = 1002] {
+    uint8 status [id = 1];
+}
+
+message FollowResponse [id = 1003] {
+    uint8 status [id = 1];
+}
+
+message StopFollow [id = 1004] {
+    float status [id = 1];
+}
+
+message LeaderStatus [id = 2001] {
+  uint32 timestamp [id = 1];
+  float speed [id = 2];
+  float steeringAngle [id = 3];
+  uint8 distanceTraveled [id = 4];
+}
+
+message FollowerStatus [id = 3001] {
+    uint8 status [id = 1];
+}
+
+message Pedal_position [id = 9001] {
+    float speed [id = 1];
+}
+
+message Steering_angle [id = 9002] {
+    float steeringAngle [id = 1];
+}
+
+message Distance_traveled [id = 9003] {
+    uint8 distanceTraveled [id = 1];
+}
+
+message opendlv.proxy.GroundSteeringReading [id = 1045] {
+  float steeringAngle [id = 1];
+}
+
+message opendlv.proxy.PedalPositionReading [id = 1041] {
+  float percent [id = 1];
+}

@@ -21,3 +21,12 @@ message LeaderStatus [id = 2001] {
 
 message FollowerStatus [id = 3001] {
 }
+
+
+message CarControllerPedal [id = 1002] {
+	float pedal [id = 1];
+}
+
+message CarControllerSteering [id = 1003] {
+	float steering [id = 1];
+}

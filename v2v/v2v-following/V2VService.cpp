@@ -18,6 +18,10 @@ V2VService::V2VService() {
                       std::cout << "received 'AnnouncePresence' from '"
                                 << ap.vehicleIp() << "', GroupID '"
                                 << ap.groupId() << "'!" << std::endl;
+                      if(ap.groupId() == "1"){
+                          following = true;
+                      }
+
 
                       presentCars[ap.groupId()] = ap.vehicleIp();
 
@@ -56,6 +60,7 @@ V2VService::V2VService() {
                        FollowResponse followResponse = decode<FollowResponse>(msg.second);
                        std::cout << "received '" << followResponse.LongName()
                                  << "' from '" << sender << "'!" << std::endl;
+                       connected = true;
                        break;
                    }
                    case STOP_FOLLOW: {
@@ -73,6 +78,8 @@ V2VService::V2VService() {
                            leaderIp = "";
                            toLeader.reset();
                        }
+
+                       connected = false;
                        break;
                    }
                    case FOLLOWER_STATUS: {
@@ -90,6 +97,12 @@ V2VService::V2VService() {
                                  << "' from '" << sender << "'!" << std::endl;
 
                        /* TODO: implement follow logic */
+
+                       speed = leaderStatus.speed();
+                       steeringAngle = leaderStatus.steeringAngle();
+                       distanceTraveled = leaderStatus.distanceTraveled();
+
+
 
                        break;
                    }

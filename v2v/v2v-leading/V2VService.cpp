@@ -34,9 +34,10 @@ V2VService::V2VService() {
     incoming =
         std::make_shared<cluon::UDPReceiver>("0.0.0.0", DEFAULT_PORT,
            [this](std::string &&data, std::string &&sender, std::chrono::system_clock::time_point &&ts) noexcept {
+               std::move(ts);
                std::cout << "[UDP] ";
                std::pair<int16_t, std::string> msg = extract(data);
-
+               std::cout << msg.first << std::endl;
                switch (msg.first) {
                    case FOLLOW_REQUEST: {
                        FollowRequest followRequest = decode<FollowRequest>(msg.second);
@@ -49,6 +50,7 @@ V2VService::V2VService() {
                            followerIp = sender.substr(0, len);      // and establish a sending channel.
                            toFollower = std::make_shared<cluon::UDPSender>(followerIp, DEFAULT_PORT);
                            followResponse();
+                           leading = true;
                        }
                        break;
                    }
@@ -73,6 +75,7 @@ V2VService::V2VService() {
                            leaderIp = "";
                            toLeader.reset();
                        }
+                       leading = false;
                        break;
                    }
                    case FOLLOWER_STATUS: {
@@ -249,4 +252,8 @@ T V2VService::decode(std::string data) {
     T tmp = T();
     tmp.accept(v);
     return tmp;
+}
+
+void V2VService::setIp(std::string ip){
+    YOUR_CAR_IP = ip;
 }

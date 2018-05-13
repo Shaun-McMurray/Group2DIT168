@@ -13,7 +13,7 @@
 
 /** ADD YOUR CAR_IP AND GROUP_ID HERE:  *****************/
 
-static const std::string YOUR_CAR_IP    = "172.20.10.6";
+static std::string YOUR_CAR_IP;
 static const std::string YOUR_GROUP_ID  = "2";
 
 /********************************************************/
@@ -34,8 +34,10 @@ class V2VService {
 public:
     std::map <std::string, std::string> presentCars;
 
-    V2VService();
+    void setIp(std::string ip);
 
+    V2VService();
+    bool leading = false;
     void announcePresence();
     void followRequest(std::string vehicleIp);
     void followResponse();
