@@ -73,9 +73,9 @@ int main(){
 		std::cout << "Accelerometer values"<< std::endl;
 		printf("%6.2f %6.2f %6.2f\n",data.accel[0],data.accel[1],data.accel[2]);
 		accelerometerValues accelValues;
-		accelValues.accel-data0(data.accel[0]);
-		accelValues.accel-data1(data.accel[1]);
-		accelValues.accel-data2(data.accel[2]);
+		accelValues.acceldata0(data.accel[0]);
+		accelValues.acceldata1(data.accel[1]);
+		accelValues.acceldata2(data.accel[2]);
 
 		//send the values through od4
 		od4.send(accelValues);
@@ -112,9 +112,9 @@ int main(){
 
 		//send gyro values through od4 session
 		gyroscopeValues gyroValues;
-		gyroValues.gyro-data0(data.gyro[0]);
-		gyroValues.gyro-data1(data.gyro[1]);
-		gyroValues.gyro-data2(data.gyro[2]);
+		gyroValues.gyrodata0(data.gyro[0]);
+		gyroValues.gyrodata1(data.gyro[1]);
+		gyroValues.gyrosdata2(data.gyro[2]);
 		od4.send(gyroValues);
 //	}
 	

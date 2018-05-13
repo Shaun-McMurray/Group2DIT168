@@ -1,6 +1,6 @@
-FROM arm32v7/debian:jessie-slim 
+FROM resin/armv7hf-debian
 #MAINTAINER Group2
-
+RUN [ "cross-build-start" ]
 RUN apt-get update -q && \
     #apt install -y dirmngr software-properties-common && \
 	apt-get install -y build-essential git && \    
@@ -11,6 +11,7 @@ RUN apt-get update -q && \
 	sudo \
 	wget && \ 
 	#xz-utils && \
+	apt install build-essential devscripts && \
     apt-get clean -y && \
     apt-get autoclean -y && \
 	apt-get autoremove -y && \
@@ -24,15 +25,14 @@ RUN apt-get update -q && \
 	cd ~/ && \
 	wget https://github.com/StrawsonDesign/Robotics_Cape_Installer/releases/download/v0.3.4/roboticscape_0.3.4_armhf.deb && \
 	DEBIAN_FRONTEND=noninteractive dpkg -i roboticscape_0.3.4_armhf.deb 
-	
-#download StrawsonDesign Robotics Cape Library v. 0.3.4
-#RUN wget https://github.com/StrawsonDesign/Robotics_Cape_Installer/releases/download/v0.3.4/roboticscape_0.3.4_armhf.deb
-
-#RUN DEBIAN_FRONTEND=noninteractive dpkg -i roboticscape_0.3.4_armhf.deb
+RUN [ "cross-build-end" ]
 
 ENV APP_PATH /opt/sources
+ENV LIB_SOURCE /etc/apt/sources.list.d/
 RUN mkdir -p $APP_PATH
+RUN mkdir -p $LIB_SOURCE
 WORKDIR $APP_PATH
+WORKDIR $LIB_SOURCE
 COPY . $APP_PATH
 RUN mkdir build -p && \
 
@@ -43,4 +43,3 @@ CMD ["./read_imu"]
 
 
 #RUN rc_version
- 
