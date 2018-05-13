@@ -10,16 +10,18 @@
 #include "cluon/Envelope.hpp"
 #include "Messages.hpp"
 #include <iostream>
+#include <queue>
 
 /** ADD YOUR CAR_IP AND GROUP_ID HERE:  *****************/
 
-static const std::string YOUR_CAR_IP    = "172.20.10.6";
+static const std::string YOUR_CAR_IP    = "192.168.1.26";
 static const std::string YOUR_GROUP_ID  = "2";
 
 /********************************************************/
 /** DON'T CHANGE STUFF BELOW THIS LINE. *****************/
 /********************************************************/
 
+static const int MOTOR_CID = 130;
 static const int BROADCAST_CHANNEL = 250;
 static const int DEFAULT_PORT = 50001;
 
@@ -48,11 +50,16 @@ public:
     float steeringAngle;
     uint8_t distanceTraveled;
 
-
+    void pedal(float pedalPosition);
+    void steer(float steeringAngle);
+    void steeringController(LeaderStatus LeaderStatus);
+    std::queue<float> steeringQueue;
+    int delay;
 private:
     std::string leaderIp;
     std::string followerIp;
 
+    std::shared_ptr<cluon::OD4Session>  proxy;
     std::shared_ptr<cluon::OD4Session>  broadcast;
     std::shared_ptr<cluon::UDPReceiver> incoming;
     std::shared_ptr<cluon::UDPSender>   toLeader;

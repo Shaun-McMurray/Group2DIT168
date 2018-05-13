@@ -6,6 +6,7 @@
 #include "cluon/Envelope.hpp"
 #include <iostream>
 
+
 static const int CHANNEL = 130;
 static const int PEDAL_POSITION = 1041;
 static const int STEERING_ANGLE = 1045;
@@ -29,9 +30,5 @@ private:
     uint8_t distanceTraveled = 0;
     std::shared_ptr<cluon::OD4Session>  broadcast;
 };
-
-
-
-
 
 #endif

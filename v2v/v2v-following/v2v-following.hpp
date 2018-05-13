@@ -3,9 +3,10 @@
 
 #include "V2VService.hpp"
 
-class v2v-following{
+static const int CHANNEL = 130;
+
+class v2v_following{
 public:
-    std::shared_ptr<cluon::OD4Session> controllerconnection;
 
 private:
 

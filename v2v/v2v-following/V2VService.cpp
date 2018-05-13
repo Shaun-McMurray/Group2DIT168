@@ -4,6 +4,10 @@
  * Implementation of the V2VService class as declared in V2VService.hpp
  */
 V2VService::V2VService() {
+
+    proxy =
+        std::make_shared<cluon::OD4Session>(MOTOR_CID,
+          [this](cluon::data::Envelope &&envelope) noexcept {});
     /*
      * The broadcast field contains a reference to the broadcast channel which is an OD4Session. This is where
      * AnnouncePresence messages will be received.
@@ -15,12 +19,12 @@ V2VService::V2VService() {
               switch (envelope.dataType()) {
                   case ANNOUNCE_PRESENCE: {
                       AnnouncePresence ap = cluon::extractMessage<AnnouncePresence>(std::move(envelope));
-                      std::cout << "received 'AnnouncePresence' from '"
-                                << ap.vehicleIp() << "', GroupID '"
-                                << ap.groupId() << "'!" << std::endl;
-                      if(ap.groupId() == "1"){
-                          following = true;
-                      }
+                      //std::cout << "received 'AnnouncePresence' from '"
+                       //         << ap.vehicleIp() << "', GroupID '"
+                         //       << ap.groupId() << "'!" << std::endl;
+                      
+                      following = true;
+                      
 
 
                       presentCars[ap.groupId()] = ap.vehicleIp();
@@ -93,15 +97,14 @@ V2VService::V2VService() {
                    }
                    case LEADER_STATUS: {
                        LeaderStatus leaderStatus = decode<LeaderStatus>(msg.second);
-                       std::cout << "received '" << leaderStatus.LongName()
-                                 << "' from '" << sender << "'!" << std::endl;
+                       //std::cout << "received '" << leaderStatus.LongName()
+                       //          << "' from '" << sender << "'!" << std::endl;
 
                        /* TODO: implement follow logic */
 
-                       speed = leaderStatus.speed();
-                       steeringAngle = leaderStatus.steeringAngle();
-                       distanceTraveled = leaderStatus.distanceTraveled();
-
+                       leaderStatus.timestamp();
+                       std::cout << "steeringController() called" << std::endl;
+                       steeringController(leaderStatus);
 
 
                        break;
@@ -262,4 +265,49 @@ T V2VService::decode(std::string data) {
     T tmp = T();
     tmp.accept(v);
     return tmp;
+}
+
+/*
+  Function used to handle the logic of saving necessary information from the received leaderstatus messages
+
+*/
+
+void V2VService::steeringController(LeaderStatus leaderStatus){
+    //Extracts the speed and saves it 
+    speed = leaderStatus.speed();
+    //Decides if the steering angle should be saved or ignored
+    if(speed != 0 && steeringQueue.size() >= delay){
+       steeringQueue.push(leaderStatus.steeringAngle());
+       pedal(speed);
+       steer(steeringQueue.front());
+       steeringQueue.pop();
+    //If the speed is 0 then ignore everything else and set the speed to 0
+    }else if(speed != 0){
+        steeringQueue.push(0);
+        pedal(speed);
+    //In case the speed is not 0 but the steering angle should be ignored
+    }else {
+        pedal(speed);
+        steer(0);
+    }
+}
+
+/*
+ Function for sending the pedal position to the car proxy
+
+*/
+void V2VService::pedal(float pedalPosition){
+    opendlv::proxy::PedalPositionReading carPedal;
+    carPedal.percent(pedalPosition);
+    proxy->send(carPedal);
+}
+
+/*
+ Function for sending the steering angle to the car proxy
+
+*/
+void V2VService::steer(float steeringAngle){
+    opendlv::proxy::GroundSteeringReading carSteering;
+    carSteering.steeringAngle(steeringAngle);
+    proxy->send(carSteering);
 }
