@@ -139,17 +139,9 @@ int main() {
 
         //Combine both images for accuraccy
         bitwise_and(houghProbabilistic, hough, houghProbabilistic);
-        Mat houghPinv(imgROI.size(), CV_8U,Scalar(0));
-        threshold(houghProbabilistic, houghPinv, 150, 255, THRESH_BINARY_INV);
 
-        
         namedWindow("Detected Lines with Bitwise");
         imshow("Detected Lines with Bitwise", houghProbabilistic);
-        
-
-
-        Canny(houghPinv, contours, 100, 350);
-        li = findLines(contours);
 
         //Stricter params for final lines
         minLength = 5;
@@ -173,7 +165,7 @@ int main() {
             opendlv::proxy::GroundSteeringReading msgSteering;
             msgSteering.steeringAngle(steering);
             od4.send(msgSteering);
-            std::cout << "message sent: " <<  steering << std::endl;
+            cout << "message sent: " <<  steering << endl;
 
             opendlv::proxy::PedalPositionReading msgPedal;
             msgPedal.percent(0.16);
@@ -269,7 +261,7 @@ Point drawIntersectionPunto(Mat &image, int tolerance){
         i++;
     }
 
-    cv::Point intersectPt;
+    Point intersectPt;
     int x = getCoord(intXCount, cols, tolerance);
     int y = getCoord(intYCount, rows, tolerance);
     if(x != -1) {
