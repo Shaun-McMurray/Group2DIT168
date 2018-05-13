@@ -74,8 +74,9 @@ int32_t main(int32_t argc, char **argv) {
 
     std::cout << "Connected with the SRF08 device on " << devNode << ". Reported firmware version '" << static_cast<int32_t>(firmwareBuffer[0]) << "'." << std::endl;
 
+    //two different CIDs -> former for all messages, and latter for obstacles within 20 centimeters range to stop the car
     cluon::OD4Session od4{CID};
-    cluon::OD4Session od4_obstacle{CID2};
+    cluon::OD4Session od4_stop{CID2};
 
     uint8_t commandBuffer[2];
     commandBuffer[0] = 0x00;
@@ -118,11 +119,13 @@ int32_t main(int32_t argc, char **argv) {
 
         cluon::data::TimeStamp sampleTime;
 
+        //sending all readings to od4
         od4.send(distanceReading);
 
+        //checking if read distance is within 20cm, if true = send the message to the proxy which will stop the car
         if((double)distanceReading.distance() < 0.2){
-          od4_obstacle.send(distanceReading);
-        }
+          od4_stop.send(distanceReading);
+        }t
 
         return true;
       }};

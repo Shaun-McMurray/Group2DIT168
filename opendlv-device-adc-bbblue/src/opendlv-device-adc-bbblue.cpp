@@ -144,13 +144,17 @@ int32_t main(int32_t argc, char **argv) {
         opendlv::proxy::VoltageReading voltageReading;
         voltageReading.voltage(voltage);
 
-        od4.send(voltageReading);
-        if (VERBOSE) {
-          std::cout << "Voltage reading is " << voltageReading.voltage() << " V." << std::endl;
+        //Formula for converting the read voltage into a realistic distance
+        double distance = 5 * std::pow(voltageReading.voltage(), -1.45);
 
-          double distance = 5 * std::pow(voltageReading.voltage(), -1.45);
+        //Sending the calculated distance through od4
+        od4.send(distance);
+
+        //Printouts for the read voltage and converted distance
+        /*if (VERBOSE) {
+          std::cout << "Voltage reading is " << voltageReading.voltage() << " V." << std::endl;
           std::cout << "Distance calculated from voltage reading is " << distance << " cm." << std::endl;
-        }
+        }*/
         return true;
       }};
 
