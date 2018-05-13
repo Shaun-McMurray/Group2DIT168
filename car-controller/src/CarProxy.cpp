@@ -21,11 +21,11 @@ int main(int /*argc*/, char** /*argv*/) {
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
     cluon::OD4Session od4(111,[](cluon::data::Envelope &&envelope) noexcept {
-       if(envelope.dataType() == 1002){
+       if(envelope.dataType() == 1112){
             CarControllerPedal receivedMsg = cluon::extractMessage<CarControllerPedal>(std::move(envelope));
             sendPedalPositionReading(receivedMsg.pedal());
             start = std::clock();
-        }else if(envelope.dataType() == 1003){
+        }else if(envelope.dataType() == 1113){
             CarControllerSteering receivedMsg = cluon::extractMessage<CarControllerSteering>(std::move(envelope));
             sendGroundSteeringReading(receivedMsg.steering());
         }
