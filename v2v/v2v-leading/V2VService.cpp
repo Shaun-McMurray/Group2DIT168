@@ -1,5 +1,7 @@
 #include "V2VService.hpp"
 
+//Based upon the v2v protocol made by the v2v responsible https://github.com/DIT168-V2V-responsibles/v2v-protocol
+
 /**
  * Implementation of the V2VService class as declared in V2VService.hpp
  */
