@@ -20,7 +20,7 @@ int main(int /*argc*/, char** /*argv*/) {
 
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
-    cluon::OD4Session od4(111,[](cluon::data::Envelope &&envelope) noexcept {
+    cluon::OD4Session od4(130,[](cluon::data::Envelope &&envelope) noexcept {
        if(envelope.dataType() == 1002){
             CarControllerPedal receivedMsg = cluon::extractMessage<CarControllerPedal>(std::move(envelope));
             sendPedalPositionReading(receivedMsg.pedal());
@@ -31,7 +31,8 @@ int main(int /*argc*/, char** /*argv*/) {
         }
     });
 
-    cluon::OD4Session od4_obstacle(112,[](cluon::data::Envelope &&envelope) noexcept {
+    //od4 with a separate CID for receiving messages from sensors when an obstacle has been detected in order to stop the car from moving
+    cluon::OD4Session od4_stop(112,[](cluon::data::Envelope &&envelope) noexcept {
         if(envelope.dataType() == 1039){ 
             opendlv::proxy::DistanceReading receivedMsg = cluon::extractMessage<opendlv::proxy::DistanceReading>(std::move(envelope));
             stopWhenObstacle(receivedMsg.distance());
@@ -64,9 +65,10 @@ int main(int /*argc*/, char** /*argv*/) {
     return 0;
 }
 
+//methods used to create new od4 sessions and send data to the od4 session at CID 130
 void sendPedalPositionReading(float pedal){
 
-    cluon::OD4Session od4(111,
+    cluon::OD4Session od4(130,
         [](cluon::data::Envelope &&envelope) noexcept {});
 
     opendlv::proxy::PedalPositionReading msgPedal;
@@ -77,7 +79,7 @@ void sendPedalPositionReading(float pedal){
 
 void sendGroundSteeringReading(float steering){
 
-    cluon::OD4Session od4(111,
+    cluon::OD4Session od4(130,
         [](cluon::data::Envelope &&envelope) noexcept {});
 
     opendlv::proxy::GroundSteeringReading msgSteering;
@@ -87,10 +89,10 @@ void sendGroundSteeringReading(float steering){
 
 void stopWhenObstacle(float distance){
 
-    cluon::OD4Session od4(111,
+    cluon::OD4Session od4(130,
         [](cluon::data::Envelope &&envelope) noexcept {});
 
-    std::cout << "Distance from obstacle is " << distance << " m." << std::endl;
+    //std::cout << "Distance from obstacle is " << distance << " m." << std::endl;
 
     opendlv::proxy::PedalPositionReading msgPedal;
     msgPedal.percent(0.0);
