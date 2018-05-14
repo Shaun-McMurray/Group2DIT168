@@ -147,8 +147,11 @@ int32_t main(int32_t argc, char **argv) {
         //Formula for converting the read voltage into a realistic distance
         double distance = 5 * std::pow(voltageReading.voltage(), -1.45);
 
+        opendlv::proxy::DistanceReading distanceReading;
+        distanceReading.distance(distance);
+
         //Sending the calculated distance through od4
-        od4.send(distance);
+        od4.send(distanceReading);
 
         //Printouts for the read voltage and converted distance
         /*if (VERBOSE) {
