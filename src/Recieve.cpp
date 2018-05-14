@@ -23,6 +23,12 @@ int main(int /*argc*/, char** /*argv*/) {
 
           std::cout << receivedMsg.sMessage() << std::endl;
         }
+        if (envelope.dataType() == 1030) {
+
+          opendlv::proxy::AccelerationReading receivedMsg = cluon::extractMessage<opendlv::proxy::AccelerationReading>(std::move(envelope));
+
+          std::cout << receivedMsg.accelerationX() << std::endl;
+        }
     });
 
 	//infinite loop to recieve messages
