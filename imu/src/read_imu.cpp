@@ -1,10 +1,14 @@
+#include <cstdint>
 #include <chrono>
 #include <iostream>
-//#include <thread>
-//#include "cluon/OD4Session.hpp"
-//#include "cluon/Envelope.hpp"
+#include <sstream>
+#include <thread>
+#include <cstdio>
+#include <ctime>
+
+#include "cluon/OD4Session.hpp"
+#include "cluon/Envelope.hpp"
 #include "messages.hpp"
-#include "cluon-complete.hpp"
 //including libraries written in C
 extern "C"
 {
@@ -114,9 +118,9 @@ int main(){
 		gyroscopeValues gyroValues;
 		gyroValues.gyrodata0(data.gyro[0]);
 		gyroValues.gyrodata1(data.gyro[1]);
-		gyroValues.gyrosdata2(data.gyro[2]);
+		gyroValues.gyrodata2(data.gyro[2]);
 		od4.send(gyroValues);
-//	}
+	}
 	
 	//rc_read_gyro_data(imu_data_t* data);
 	rc_power_off_imu();
