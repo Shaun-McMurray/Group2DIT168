@@ -1,0 +1,77 @@
+FROM resin/beaglebone-black-debian:stretch as builder
+#MAINTAINER Group2
+USER root
+RUN [ "cross-build-start" ]
+RUN apt-get update -q && \
+    apt-get install -y dirmngr software-properties-common && \
+	apt-get install -y build-essential cmake && \    
+    apt-get update -q && \
+    apt-get dist-upgrade -y && \
+    apt-get install -y \ 
+	sudo \
+	wget && \ 
+	apt-get install build-essential devscripts && \
+    apt-get clean -y && \
+    apt-get autoclean -y && \
+	apt-get autoremove -y && \
+	wget https://github.com/StrawsonDesign/Robotics_Cape_Installer/releases/download/v0.3.4/roboticscape_0.3.4_armhf.deb && \
+	DEBIAN_FRONTEND=noninteractive dpkg -i roboticscape_0.3.4_armhf.deb && \
+	wget https://launchpad.net/~chrberger/+archive/ubuntu/libcluon/+build/14882932/+files/libcluon_0.0.98-1ppa1~xenial1_armhf.deb && \
+ 	dpkg -i libcluon_0.0.98-1ppa1~xenial1_armhf.deb 
+#&& \ configure_robotics_dt.sh
+
+COPY ./uEnv.txt /boot/uEnv.txt
+COPY ./model /proc/device-tree/model
+
+ENV MODEL_PATH /proc/device-tree
+RUN mkdir -p $MODEL_PATH
+
+ADD . /opt/sources
+WORKDIR /opt/sources
+RUN cd /opt/sources && \
+    mkdir build && \
+    cd build && \
+    cmake -D CMAKE_BUILD_TYPE=Release .. && \
+    make && cp imu_sensor /tmp
+
+RUN [ "cross-build-end" ]
+
+# Deploy.
+FROM resin/beaglebone-black-debian:stretch
+MAINTAINER Group2 based on Christian Berger christian.berger@gu.se
+RUN [ "cross-build-start" ]
+
+RUN apt-get update -q && \
+    apt-get install -y dirmngr software-properties-common && \
+	apt-get install -y build-essential cmake && \    
+    apt-get update -q && \
+    apt-get dist-upgrade -y && \
+    apt-get install -y \ 
+	sudo \
+	wget && \ 
+	apt-get install build-essential devscripts && \
+    apt-get clean -y && \
+    apt-get autoclean -y && \
+	apt-get autoremove -y && \
+	wget https://github.com/StrawsonDesign/Robotics_Cape_Installer/releases/download/v0.3.4/roboticscape_0.3.4_armhf.deb && \
+	DEBIAN_FRONTEND=noninteractive dpkg -i roboticscape_0.3.4_armhf.deb && \
+	wget https://launchpad.net/~chrberger/+archive/ubuntu/libcluon/+build/14882932/+files/libcluon_0.0.98-1ppa1~xenial1_armhf.deb && \
+ 	dpkg -i libcluon_0.0.98-1ppa1~xenial1_armhf.deb 
+#&& \ configure_robotics_dt.sh
+
+WORKDIR /opt
+COPY --from=builder /tmp/imu_sensor .
+#WORKDIR /boot/
+#COPY --from=builder /tmp/uEnv.txt /boot/
+#COPY --from=builder /proc/device-tree/ /proc/device-tree/
+
+COPY ./uEnv.txt /boot/uEnv.txt
+COPY ./model $MODEL_PATH
+
+RUN [ "cross-build-end" ]
+
+CMD ["/opt/imu_sensor"]
+
+
+
+

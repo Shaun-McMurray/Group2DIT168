@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM resin/armv7hf-debian:stretch
 #MAINTAINER Group2
 RUN [ "cross-build-start" ]
 RUN apt-get update -q && \
@@ -23,10 +23,12 @@ RUN apt-get update -q && \
 	#sudo make install && \
 	#export PATH=/usr/local/bin:$PATH && \
 	#cd ~/ && \
-	#wget https://github.com/StrawsonDesign/Robotics_Cape_Installer/releases/download/v0.3.4/roboticscape_0.3.4_armhf.deb && \
-	#DEBIAN_FRONTEND=noninteractive dpkg -i roboticscape_0.3.4_armhf.deb && \
-	wget https://launchpad.net/~chrberger/+archive/ubuntu/libcluon/+build/14882930/+files/libcluon_0.0.98-1ppa1~xenial1_amd64.deb && \
- 	dpkg -i libcluon_0.0.98-1ppa1~xenial1_amd64.deb
+	wget https://github.com/StrawsonDesign/Robotics_Cape_Installer/releases/download/v0.3.4/roboticscape_0.3.4_armhf.deb && \
+	DEBIAN_FRONTEND=noninteractive dpkg -i roboticscape_0.3.4_armhf.deb && \
+	wget https://launchpad.net/~chrberger/+archive/ubuntu/libcluon/+build/14882932/+files/libcluon_0.0.98-1ppa1~xenial1_armhf.deb && \
+ 	dpkg -i libcluon_0.0.98-1ppa1~xenial1_armhf.deb
+
+
 
 ENV APP_PATH /opt/sources
 RUN mkdir -p $APP_PATH
@@ -37,9 +39,7 @@ RUN mkdir build -p && \
     cmake -D CMAKE_BUILD_TYPE=Release .. && \
     make
 RUN [ "cross-build-end" ]
+CMD ["./imu_sensor"]
+
+
 #RUN rc_version
-#WORKDIR /opt/sources/build
-#CMD ["./read_imu"]
-
-
-
