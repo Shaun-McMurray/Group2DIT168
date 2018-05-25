@@ -1,12 +1,14 @@
-FROM resin/beaglebone-black-debian:stretch as builder
+FROM resin/beaglebone-black-debian:jessie as builder
 #MAINTAINER Group2
 USER root
 RUN [ "cross-build-start" ]
 RUN apt-get update -q && \
     apt-get install -y dirmngr software-properties-common && \
-	apt-get install -y build-essential cmake && \    
+	apt-get install -y build-essential cmake && \
+	echo "deb http://ftp.us.debian.org/debian unstable main contrib non-free" >> /etc/apt/sources.list.d/unstable.list && \
     apt-get update -q && \
-    apt-get dist-upgrade -y && \
+	apt-get install -t unstable gcc-5 && \
+    #apt-get dist-upgrade -y && \
     apt-get install -y \ 
 	sudo \
 	wget && \ 
@@ -17,14 +19,10 @@ RUN apt-get update -q && \
 	wget https://github.com/StrawsonDesign/Robotics_Cape_Installer/releases/download/v0.3.4/roboticscape_0.3.4_armhf.deb && \
 	DEBIAN_FRONTEND=noninteractive dpkg -i roboticscape_0.3.4_armhf.deb && \
 	wget https://launchpad.net/~chrberger/+archive/ubuntu/libcluon/+build/14882932/+files/libcluon_0.0.98-1ppa1~xenial1_armhf.deb && \
- 	dpkg -i libcluon_0.0.98-1ppa1~xenial1_armhf.deb 
-#&& \ configure_robotics_dt.sh
+ 	dpkg -i libcluon_0.0.98-1ppa1~xenial1_armhf.deb && \ 
+	configure_robotics_dt.sh -f
 
-COPY ./uEnv.txt /boot/uEnv.txt
-COPY ./model /proc/device-tree/model
-
-ENV MODEL_PATH /proc/device-tree
-RUN mkdir -p $MODEL_PATH
+#COPY ./uEnv.txt /boot/uEnv.txt
 
 ADD . /opt/sources
 WORKDIR /opt/sources
@@ -37,15 +35,16 @@ RUN cd /opt/sources && \
 RUN [ "cross-build-end" ]
 
 # Deploy.
-FROM resin/beaglebone-black-debian:stretch
+FROM resin/beaglebone-black-debian:jessie
 MAINTAINER Group2 based on Christian Berger christian.berger@gu.se
 RUN [ "cross-build-start" ]
 
 RUN apt-get update -q && \
     apt-get install -y dirmngr software-properties-common && \
-	apt-get install -y build-essential cmake && \    
+	echo "deb http://ftp.us.debian.org/debian unstable main contrib non-free" >> /etc/apt/sources.list.d/unstable.list && \
     apt-get update -q && \
-    apt-get dist-upgrade -y && \
+	apt-get install -t unstable gcc-5 && \
+    #apt-get dist-upgrade -y && \
     apt-get install -y \ 
 	sudo \
 	wget && \ 
@@ -56,18 +55,13 @@ RUN apt-get update -q && \
 	wget https://github.com/StrawsonDesign/Robotics_Cape_Installer/releases/download/v0.3.4/roboticscape_0.3.4_armhf.deb && \
 	DEBIAN_FRONTEND=noninteractive dpkg -i roboticscape_0.3.4_armhf.deb && \
 	wget https://launchpad.net/~chrberger/+archive/ubuntu/libcluon/+build/14882932/+files/libcluon_0.0.98-1ppa1~xenial1_armhf.deb && \
- 	dpkg -i libcluon_0.0.98-1ppa1~xenial1_armhf.deb 
-#&& \ configure_robotics_dt.sh
+ 	dpkg -i libcluon_0.0.98-1ppa1~xenial1_armhf.deb && \ 
+	configure_robotics_dt.sh -f
 
 WORKDIR /opt
 COPY --from=builder /tmp/imu_sensor .
-#WORKDIR /boot/
-#COPY --from=builder /tmp/uEnv.txt /boot/
-#COPY --from=builder /proc/device-tree/ /proc/device-tree/
 
-COPY ./uEnv.txt /boot/uEnv.txt
-COPY ./model $MODEL_PATH
-
+#COPY ./uEnv.txt /boot/uEnv.txt
 RUN [ "cross-build-end" ]
 
 CMD ["/opt/imu_sensor"]
